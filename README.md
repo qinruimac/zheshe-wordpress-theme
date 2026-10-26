@@ -44,15 +44,19 @@
 
 ## 安装
 
-1. 下载 ZIP 并解压（或将本仓库克隆）到 `wp-content/themes/` 目录；
+1. 下载 ZIP 并解压（或将本仓库克隆）到 `wp-content/themes/` 目录，确保主题文件夹名为 **`prism`**；
 2. 进入 WordPress 后台 → 外观 → 主题，启用 **Prism**；
 3. （可选）后台 → 外观 → 菜单，设置「主菜单」和「页脚菜单」；
 4. （可选）文章 → 分类 → 编辑分类，为分类选择一个图标。
 
+> **升级提示**：WordPress 后台「上传主题」只会全新安装、不会覆盖已有目录。
+> 升级请下载 Release 里的 `prism-overlay.zip`，解压后通过 FTP 覆盖到 `wp-content/themes/prism/`，
+> 这样主题 slug 不变，Customizer 设置、菜单和小工具都会保留。
+
 ## 目录结构
 
 ```
-prism-theme/
+prism/
 ├── assets/
 │   ├── css/
 │   │   ├── custom.css         # 附加样式
