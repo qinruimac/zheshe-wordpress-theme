@@ -6,19 +6,19 @@ get_header();
 
 <div class="single-post-header">
   <?php if (is_category()) : ?>
-    <h1><i class="bi bi-folder me-2"></i><?php _e('Category:', 'prism'); ?> <?php single_cat_title(); ?></h1>
+    <h1><i class="bi bi-folder me-2"></i><?php _e('Category:', 'zheshe'); ?> <?php single_cat_title(); ?></h1>
   <?php elseif (is_tag()) : ?>
-    <h1><i class="bi bi-hash me-2"></i><?php _e('Tag:', 'prism'); ?> <?php single_tag_title(); ?></h1>
+    <h1><i class="bi bi-hash me-2"></i><?php _e('Tag:', 'zheshe'); ?> <?php single_tag_title(); ?></h1>
   <?php elseif (is_author()) : ?>
-    <h1><i class="bi bi-person me-2"></i><?php _e('Author:', 'prism'); ?> <?php the_author(); ?></h1>
+    <h1><i class="bi bi-person me-2"></i><?php _e('Author:', 'zheshe'); ?> <?php the_author(); ?></h1>
   <?php elseif (is_day()) : ?>
-    <h1><i class="bi bi-calendar me-2"></i><?php _e('Daily Archive:', 'prism'); ?> <?php echo get_the_date(); ?></h1>
+    <h1><i class="bi bi-calendar me-2"></i><?php _e('Daily Archive:', 'zheshe'); ?> <?php echo get_the_date(); ?></h1>
   <?php elseif (is_month()) : ?>
-    <h1><i class="bi bi-calendar me-2"></i><?php _e('Monthly Archive:', 'prism'); ?> <?php echo get_the_date('F Y'); ?></h1>
+    <h1><i class="bi bi-calendar me-2"></i><?php _e('Monthly Archive:', 'zheshe'); ?> <?php echo get_the_date('F Y'); ?></h1>
   <?php elseif (is_year()) : ?>
-    <h1><i class="bi bi-calendar me-2"></i><?php _e('Yearly Archive:', 'prism'); ?> <?php echo get_the_date('Y'); ?></h1>
+    <h1><i class="bi bi-calendar me-2"></i><?php _e('Yearly Archive:', 'zheshe'); ?> <?php echo get_the_date('Y'); ?></h1>
   <?php else : ?>
-    <h1><i class="bi bi-archive me-2"></i><?php _e('Archive', 'prism'); ?></h1>
+    <h1><i class="bi bi-archive me-2"></i><?php _e('Archive', 'zheshe'); ?></h1>
   <?php endif; ?>
   <?php if (is_category() && category_description()) : ?>
     <p class="lead mt-2"><?php echo category_description(); ?></p>
@@ -36,11 +36,11 @@ get_header();
         <?php endwhile; ?>
       </div>
 
-      <?php prism_pagination(); ?>
+      <?php zheshe_pagination(); ?>
     <?php else : ?>
       <div class="text-center py-5">
         <i class="bi bi-inbox text-muted" style="font-size:3rem;"></i>
-        <h4 class="mt-3 text-muted"><?php _e('No posts yet', 'prism'); ?></h4>
+        <h4 class="mt-3 text-muted"><?php _e('No posts yet', 'zheshe'); ?></h4>
       </div>
     <?php endif; ?>
   </div>

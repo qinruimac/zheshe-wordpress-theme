@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) exit;
     <div class="card-body">
       <form role="search" method="get" class="blog-search-form" action="<?php echo esc_url(home_url('/')); ?>">
         <div class="input-group">
-          <input type="search" class="form-control" placeholder="<?php esc_attr_e('Search posts...', 'prism'); ?>" value="<?php echo get_search_query(); ?>" name="s">
+          <input type="search" class="form-control" placeholder="<?php esc_attr_e('Search posts...', 'zheshe'); ?>" value="<?php echo get_search_query(); ?>" name="s">
           <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
         </div>
       </form>
@@ -15,12 +15,12 @@ if (!defined('ABSPATH')) exit;
 
   <div class="sidebar-card card">
     <div class="card-body">
-      <h5 class="mb-3"><?php _e('Categories', 'prism'); ?></h5>
+      <h5 class="mb-3"><?php _e('Categories', 'zheshe'); ?></h5>
       <div class="list-group list-group-flush">
         <?php
         $categories = get_categories(array('number' => 10));
         foreach ($categories as $cat) :
-          $icon = prism_category_icon($cat->term_id);
+          $icon = zheshe_category_icon($cat->term_id);
         ?>
           <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>" class="list-group-item list-group-item-action d-flex justify-content-between">
             <span><i class="bi <?php echo esc_attr($icon); ?> me-2"></i><?php echo esc_html($cat->name); ?></span>
@@ -33,7 +33,7 @@ if (!defined('ABSPATH')) exit;
 
   <div class="sidebar-card card">
     <div class="card-body">
-      <h5 class="mb-3"><?php _e('Popular Tags', 'prism'); ?></h5>
+      <h5 class="mb-3"><?php _e('Popular Tags', 'zheshe'); ?></h5>
       <?php
       $tags = get_tags(array('number' => 15, 'orderby' => 'count', 'order' => 'DESC'));
       foreach ($tags as $tag) :
@@ -43,18 +43,18 @@ if (!defined('ABSPATH')) exit;
         </a>
       <?php endforeach; ?>
       <?php if (empty($tags)) : ?>
-        <p class="text-muted small mb-0"><?php _e('No tags yet', 'prism'); ?></p>
+        <p class="text-muted small mb-0"><?php _e('No tags yet', 'zheshe'); ?></p>
       <?php endif; ?>
     </div>
   </div>
 
   <div class="sidebar-card card">
     <div class="card-body">
-      <h5 class="mb-3"><?php _e('Popular Posts', 'prism'); ?></h5>
+      <h5 class="mb-3"><?php _e('Popular Posts', 'zheshe'); ?></h5>
       <?php
       $popular = new WP_Query(array(
         'posts_per_page' => 3,
-        'meta_key' => 'post_views',
+        'meta_key' => 'zheshe_post_views',
         'orderby' => 'meta_value_num',
         'order' => 'DESC',
       ));
@@ -69,15 +69,15 @@ if (!defined('ABSPATH')) exit;
           <div>
             <a href="<?php the_permalink(); ?>" class="text-decoration-none small fw-bold"><?php the_title(); ?></a>
             <br>
-            <small class="text-muted"><?php _e('Views', 'prism'); ?> <?php echo esc_html(prism_post_views()); ?></small>
+            <small class="text-muted"><?php _e('Views', 'zheshe'); ?> <?php echo esc_html(zheshe_post_views()); ?></small>
           </div>
         </div>
       <?php endwhile; wp_reset_postdata(); ?>
       <?php if (!$has_popular) : ?>
-        <p class="text-muted small mb-0"><?php _e('No posts yet', 'prism'); ?></p>
+        <p class="text-muted small mb-0"><?php _e('No posts yet', 'zheshe'); ?></p>
       <?php endif; ?>
     </div>
   </div>
 
-  <?php echo prism_subscription_form(); ?>
+  <?php echo zheshe_subscription_form(); ?>
 </div>

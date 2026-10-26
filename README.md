@@ -1,8 +1,8 @@
-# Prism — 棱镜折射多彩光芒
+# Zheshe（折射）— 棱镜折射多彩光芒
 
 基于 **Bootstrap 5** 的现代 WordPress 博客主题，紫蓝渐变风格，响应式设计。
 
-![Theme Version](https://img.shields.io/badge/version-1.1.0-667eea)
+![Theme Version](https://img.shields.io/badge/version-1.2.0-667eea)
 ![Requires PHP](https://img.shields.io/badge/PHP-7.4%2B-764ba2)
 ![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-21759b)
 ![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue)
@@ -21,14 +21,22 @@
 - 🧱 支持 Gutenberg：自定义调色板、渐变、宽屏对齐、`theme.json` 排版控制
 - ♿ 无障碍：skip-link、`<main>` landmark、导航 aria-label、焦点样式
 - 📦 **零外部依赖**：Bootstrap 与图标全部内置在 `assets/vendor/`，不依赖 CDN
-- 🌐 内置简体中文语言包（121 条字符串已完整翻译），翻译就绪（Text Domain: `prism`）
+- 🌐 内置简体中文语言包（121 条字符串已完整翻译），翻译就绪（Text Domain: `zheshe`）
 
 ## Changelog
+
+### 1.2.0
+
+- **更名为 Zheshe**，主题目录名、Text Domain、函数前缀三者统一为 `zheshe`
+- 数据库键名加前缀：`post_views` → `zheshe_post_views`、`blog_hero_*` → `zheshe_hero_*`，
+  并自动迁移旧数据（升级不丢浏览量与 Hero 文案）
+- 新增 `readme.txt`（WordPress.org 官方目录要求的格式）
+- 语言包重新生成（补全 PO 头，121 条译文）
 
 ### 1.1.0
 
 - 新增 Customizer「首页 Hero」面板，标题/副标题/风格可后台修改并实时预览
-- 分页改为 Bootstrap 5 结构，新增 `prism_pagination()` 辅助函数
+- 分页改为 Bootstrap 5 结构，新增 `zheshe_pagination()` 辅助函数
 - 评论列表改用自定义回调，多条 CSS 规则此前因模板未输出类名而失效，现已生效
 - 所有正文容器改用 `<article>` + `post_class()`，`.sticky` 置顶标识生效
 - 新增 `searchform.php`，搜索框与主题风格统一
@@ -44,19 +52,19 @@
 
 ## 安装
 
-1. 下载 ZIP 并解压（或将本仓库克隆）到 `wp-content/themes/` 目录，确保主题文件夹名为 **`prism`**；
-2. 进入 WordPress 后台 → 外观 → 主题，启用 **Prism**；
+1. 下载 ZIP 并解压（或将本仓库克隆）到 `wp-content/themes/` 目录，确保主题文件夹名为 **`zheshe`**；
+2. 进入 WordPress 后台 → 外观 → 主题，启用 **Zheshe**；
 3. （可选）后台 → 外观 → 菜单，设置「主菜单」和「页脚菜单」；
 4. （可选）文章 → 分类 → 编辑分类，为分类选择一个图标。
 
 > **升级提示**：WordPress 后台「上传主题」只会全新安装、不会覆盖已有目录。
-> 升级请下载 Release 里的 `prism-overlay.zip`，解压后通过 FTP 覆盖到 `wp-content/themes/prism/`，
+> 升级请下载 Release 里的 `zheshe-overlay.zip`，解压后通过 FTP 覆盖到 `wp-content/themes/zheshe/`，
 > 这样主题 slug 不变，Customizer 设置、菜单和小工具都会保留。
 
 ## 目录结构
 
 ```
-prism/
+zheshe/
 ├── assets/
 │   ├── css/
 │   │   ├── custom.css         # 附加样式
@@ -95,7 +103,7 @@ prism/
 - 分类图标：后台 → 文章 → 分类 → 编辑，选择图标（未设置时按分类 ID 自动分配）
 - 侧边栏 / 底部组件：后台 → 外观 → 小工具
 - 主菜单 / 页脚菜单：后台 → 外观 → 菜单
-- 想改回 CDN 加载资源，在子主题中加入：`add_filter('prism_use_local_assets', '__return_false');`
+- 想改回 CDN 加载资源，在子主题中加入：`add_filter('zheshe_use_local_assets', '__return_false');`
 
 ## 许可证
 

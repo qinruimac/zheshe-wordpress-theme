@@ -18,7 +18,7 @@ get_header();
     <div class="single-post-content">
       <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
       <?php if (has_post_thumbnail()) : ?>
-        <?php the_post_thumbnail('prism-featured', array('class' => 'mb-4')); ?>
+        <?php the_post_thumbnail('zheshe-featured', array('class' => 'mb-4')); ?>
       <?php endif; ?>
 
       <div class="entry-content">

@@ -9,15 +9,15 @@ get_header();
 <div class="single-post-header">
   <div class="row">
     <div class="col-lg-10">
-      <?php echo prism_post_categories(); ?>
+      <?php echo zheshe_post_categories(); ?>
       <h1><?php the_title(); ?></h1>
       <div class="d-flex align-items-center mt-3">
         <?php echo get_avatar(get_the_author_meta('ID'), 40, '', '', array('class' => 'rounded-circle me-2')); ?>
         <div>
           <div class="fw-bold"><?php the_author(); ?></div>
           <small class="opacity-75">
-            <?php echo get_the_date(); ?> · <i class="bi bi-eye"></i> <?php echo esc_html(prism_post_views()); ?>
-            · <i class="bi bi-clock"></i> <?php echo esc_html(prism_reading_time()); ?> <?php _e('min read', 'prism'); ?>
+            <?php echo get_the_date(); ?> · <i class="bi bi-eye"></i> <?php echo esc_html(zheshe_post_views()); ?>
+            · <i class="bi bi-clock"></i> <?php echo esc_html(zheshe_reading_time()); ?> <?php _e('min read', 'zheshe'); ?>
           </small>
         </div>
       </div>
@@ -30,7 +30,7 @@ get_header();
     <div class="single-post-content">
       <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
       <?php if (has_post_thumbnail()) : ?>
-        <?php the_post_thumbnail('prism-featured', array('class' => 'mb-4')); ?>
+        <?php the_post_thumbnail('zheshe-featured', array('class' => 'mb-4')); ?>
       <?php endif; ?>
 
       <div class="entry-content">
@@ -46,7 +46,7 @@ get_header();
       <?php $tags = get_the_tags(); ?>
       <?php if ($tags) : ?>
         <div class="mt-4">
-          <h6 class="mb-2"><?php _e('Tags', 'prism'); ?></h6>
+          <h6 class="mb-2"><?php _e('Tags', 'zheshe'); ?></h6>
           <?php foreach ($tags as $tag) : ?>
             <a href="<?php echo esc_url(get_tag_link($tag->term_id)); ?>" class="badge bg-light text-dark tag-badge">
               <?php echo esc_html($tag->name); ?>
@@ -71,7 +71,7 @@ get_header();
           <?php if ($prev) : ?>
             <a href="<?php echo esc_url(get_permalink($prev->ID)); ?>" class="text-decoration-none">
               <div class="card border-0 shadow-sm p-3">
-                <small class="text-muted"><i class="bi bi-arrow-left me-1"></i><?php _e('Previous', 'prism'); ?></small>
+                <small class="text-muted"><i class="bi bi-arrow-left me-1"></i><?php _e('Previous', 'zheshe'); ?></small>
                 <div class="fw-bold small"><?php echo esc_html($prev->post_title); ?></div>
               </div>
             </a>
@@ -82,7 +82,7 @@ get_header();
           <?php if ($next) : ?>
             <a href="<?php echo esc_url(get_permalink($next->ID)); ?>" class="text-decoration-none">
               <div class="card border-0 shadow-sm p-3 text-end">
-                <small class="text-muted"><?php _e('Next', 'prism'); ?><i class="bi bi-arrow-right ms-1"></i></small>
+                <small class="text-muted"><?php _e('Next', 'zheshe'); ?><i class="bi bi-arrow-right ms-1"></i></small>
                 <div class="fw-bold small"><?php echo esc_html($next->post_title); ?></div>
               </div>
             </a>
