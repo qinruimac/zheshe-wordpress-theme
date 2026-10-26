@@ -1,0 +1,49 @@
+/**
+ * 古腾堡编辑器样式
+ * 让编辑器内的排版尽量接近前台显示效果
+ */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #212529;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.wp-block {
+  max-width: 800px;
+}
+
+.wp-block[data-align="wide"] {
+  max-width: 1100px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+a {
+  color: #667eea;
+}
+
+blockquote.wp-block-quote {
+  border-left: 4px solid #667eea;
+  padding-left: 1rem;
+  color: #6c757d;
+}
+
+.wp-block-code code,
+pre.wp-block-preformatted {
+  background: #f8f9fa;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+img {
+  border-radius: 0.5rem;
+  height: auto;
+}

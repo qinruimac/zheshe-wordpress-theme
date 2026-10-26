@@ -1,181 +1,363 @@
-msgid ""
-msgstr ""
-"Project-Id-Version: Prism 1.0.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-10 17:00+0800\n"
-"PO-Revision-Date: 2026-10-10 17:00+0800\n"
-"Last-Translator: \n"
-"Language-Team: Chinese (China)\n"
-"Language: zh_CN\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Prism Theme\n"
-
-msgid "Home"
-msgstr "首页"
-
-msgid "Write"
-msgstr "写文章"
-
-msgid "Quick Links"
-msgstr "快速链接"
-
-msgid "Subscribe Updates"
-msgstr "订阅更新"
-
-msgid "Get notified of new posts"
-msgstr "获取最新文章推送"
-
-msgid "Follow Us"
-msgstr "关注我们"
-
-msgid "Subscribe via RSS"
-msgstr "通过 RSS 订阅最新文章"
-
-msgid "RSS Feed"
-msgstr "RSS 订阅"
-
-msgid "Search posts..."
-msgstr "搜索文章..."
-
-msgid "Categories"
-msgstr "分类"
-
-msgid "Popular Tags"
-msgstr "热门标签"
-
-msgid "No tags yet"
-msgstr "暂无标签"
-
-msgid "Popular Posts"
-msgstr "热门文章"
-
-msgid "Views"
-msgstr "阅读"
-
-msgid "No posts yet"
-msgstr "暂无文章"
-
-msgid "Share knowledge, record life"
-msgstr "分享知识，记录生活"
-
-msgid "Explore technology, life and travel, find resonance here."
-msgstr "探索技术、生活与旅行的点滴，在这里找到共鸣。"
-
-msgid "Start Reading"
-msgstr "开始阅读"
-
-msgid "Latest Posts"
-msgstr "最新文章"
-
-msgid "Start writing and share your story!"
-msgstr "开始写作，分享你的故事吧！"
-
-msgid "min read"
-msgstr "分钟阅读"
-
-msgid "Tags"
-msgstr "标签"
-
-msgid "Previous"
-msgstr "上一篇"
-
-msgid "Next"
-msgstr "下一篇"
-
-msgid "Category:"
-msgstr "分类："
-
-msgid "Tag:"
-msgstr "标签："
-
-msgid "Author:"
-msgstr "作者："
-
-msgid "Daily Archive:"
-msgstr "日归档："
-
-msgid "Monthly Archive:"
-msgstr "月归档："
-
-msgid "Yearly Archive:"
-msgstr "年归档："
 
 msgid "Archive"
 msgstr "归档"
 
-msgid "Search Results"
-msgstr "搜索结果"
+msgid "Author:"
+msgstr "作者："
 
-msgid "Keyword:"
-msgstr "关键词："
+msgid "Auto (default)"
+msgstr "自动（默认）"
 
-msgid "No posts found"
-msgstr "未找到相关文章"
+msgid "Back to Home"
+msgstr "返回首页"
 
-msgid "Try a different keyword!"
-msgstr "试试其他关键词吧！"
+msgid "Brand"
+msgstr "品牌色"
 
-msgid "Enter password to view comments."
-msgstr "请输入密码查看评论。"
-
-msgid "Comments"
-msgstr "评论"
-
-msgid "Reply"
-msgstr "回复"
-
-msgid "No comments yet. Be the first!"
-msgstr "还没有评论，来说两句吧！"
-
-msgid "Leave a Comment"
-msgstr "发表评论"
-
-msgid "Reply to %s"
-msgstr "回复 %s"
+msgid "Brand Dark"
+msgstr "品牌深色"
 
 msgid "Cancel Reply"
 msgstr "取消回复"
 
-msgid "Post Comment"
-msgstr "发表评论"
+msgid "Categories"
+msgstr "分类"
 
-msgid "Write your comment..."
-msgstr "写下你的评论..."
+msgid "Category icon"
+msgstr "分类图标"
 
-msgid "Name"
-msgstr "昵称"
+msgid "Category:"
+msgstr "分类："
+
+msgid "Comments"
+msgstr "评论"
+
+msgid "Customize the headline area of the blog homepage."
+msgstr "自定义博客首页 Hero 横幅区域的文案。"
+
+msgid "DIY 维修"
+msgstr "DIY 维修"
+
+msgid "Daily Archive:"
+msgstr "日归档："
+
+msgid "Dark"
+msgstr "深色"
+
+msgid "Displayed beside the category name in the sidebar."
+msgstr "将显示在侧边栏分类名称旁边。"
+
+msgid "Edit"
+msgstr "编辑"
 
 msgid "Email"
 msgstr "邮箱"
 
-msgid "Website (optional)"
-msgstr "网站（可选）"
+msgid "Enter password to view comments."
+msgstr "请输入密码查看评论。"
 
-msgid "Page Not Found"
-msgstr "页面未找到"
+msgid "Explore technology, life and travel, find resonance here."
+msgstr "探索技术、生活与旅行的点滴，在这里找到共鸣。"
 
-msgid "The page you are looking for does not exist or has been removed."
-msgstr "你访问的页面不存在或已被移除。"
-
-msgid "Back to Home"
-msgstr "返回首页"
-msgid "Primary Menu"
-msgstr "主导航菜单"
+msgid "Follow Us"
+msgstr "关注我们"
 
 msgid "Footer Menu"
 msgstr "底部菜单"
 
-msgid "Blog Sidebar"
+msgid "Get notified of new posts"
+msgstr "获取最新文章推送"
+
+msgid "Grey"
+msgstr "灰色"
+
+msgid "Hero Style"
+msgstr "Hero 风格"
+
+msgid "Hero Subtitle"
+msgstr "Hero 副标题"
+
+msgid "Hero Title"
+msgstr "Hero 标题"
+
+msgid "Home"
+msgstr "首页"
+
+msgid "Home Hero"
+msgstr "首页 Hero 横幅"
+
+msgid "Keyword:"
+msgstr "关键词："
+
+msgid "Latest Posts"
+msgstr "最新文章"
+
+msgid "Leave a Comment"
+msgstr "发表评论"
+
+msgid "Light"
+msgstr "浅色"
+
+msgid "Monthly Archive:"
+msgstr "月归档："
+
+msgid "Name"
+msgstr "昵称"
+
+msgid "Next"
+msgstr "下一篇"
+
+msgid "No comments yet. Be the first!"
+msgstr "还没有评论，来说两句吧！"
+
+msgid "No posts found"
+msgstr "未找到相关文章"
+
+msgid "No posts yet"
+msgstr "暂无文章"
+
+msgid "No tags yet"
+msgstr "暂无标签"
+
+msgid "Page Not Found"
+msgstr "页面未找到"
+
+msgid "Popular Posts"
+msgstr "热门文章"
+
+msgid "Popular Tags"
+msgstr "热门标签"
+
+msgid "Post Comment"
+msgstr "发表评论"
+
+msgid "Posts navigation"
+msgstr "文章分页导航"
+
+msgid "Previous"
+msgstr "上一篇"
+
+msgid "Primary Menu"
+msgstr "主导航菜单"
+
+msgid "Primary navigation"
+msgstr "主导航"
+
+msgid "Purple-Blue Gradient"
+msgstr "紫蓝渐变"
+
+msgid "Quick Links"
+msgstr "快速链接"
+
+msgid "RSS Feed"
+msgstr "RSS 订阅"
+
+msgid "Reply"
+msgstr "回复"
+
+msgid "Reply to %s"
+msgstr "回复 %s"
+
+msgid "Search Results"
+msgstr "搜索结果"
+
+msgid "Search posts..."
+msgstr "搜索文章..."
+
+msgid "Share knowledge, record life"
+msgstr "分享知识，记录生活"
+
+msgid "Skip to content"
+msgstr "跳到主要内容"
+
+msgid "Solid Dark"
+msgstr "纯色深灰"
+
+msgid "Start Reading"
+msgstr "开始阅读"
+
+msgid "Start writing and share your story!"
+msgstr "开始写作，分享你的故事吧！"
+
+msgid "Subscribe Updates"
+msgstr "订阅更新"
+
+msgid "Subscribe via RSS"
+msgstr "通过 RSS 订阅最新文章"
+
+msgid "Tag:"
+msgstr "标签："
+
+msgid "Tags"
+msgstr "标签"
+
+msgid "The page you are looking for does not exist or has been removed."
+msgstr "你访问的页面不存在或已被移除。"
+
+msgid "Try a different keyword!"
+msgstr "试试其他关键词吧！"
+
+msgid "Views"
+msgstr "阅读"
+
+msgid "Website (optional)"
+msgstr "网站（可选）"
+
+msgid "White"
+msgstr "白色"
+
+msgid "Write"
+msgstr "写文章"
+
+msgid "Write your comment..."
+msgstr "写下你的评论..."
+
+msgid "Yearly Archive:"
+msgstr "年归档："
+
+msgid "Your comment is awaiting moderation."
+msgstr "您的评论正在等待审核。"
+
+msgid "min read"
+msgstr "分钟阅读"
+
+msgid "个人成长"
+msgstr "个人成长"
+
+msgid "人工智能"
+msgstr "人工智能"
+
+msgid "博客侧边栏"
 msgstr "博客侧边栏"
 
-msgid "Footer Area"
+msgid "命令行"
+msgstr "命令行"
+
+msgid "咖啡生活"
+msgstr "咖啡生活"
+
+msgid "团队协作"
+msgstr "团队协作"
+
+msgid "图表可视"
+msgstr "图表可视"
+
+msgid "地图探索"
+msgstr "地图探索"
+
+msgid "城市建筑"
+msgstr "城市建筑"
+
+msgid "天气自然"
+msgstr "天气自然"
+
+msgid "好物购物"
+msgstr "好物购物"
+
+msgid "学习笔记"
+msgstr "学习笔记"
+
+msgid "家居"
+msgstr "家居"
+
+msgid "底部区域"
 msgstr "底部区域"
 
-msgid "Display on the right side of blog pages"
+msgid "开源项目"
+msgstr "开源项目"
+
+msgid "归档"
+msgstr "归档"
+
+msgid "影视"
+msgstr "影视"
+
+msgid "情感"
+msgstr "情感"
+
+msgid "想法灵感"
+msgstr "想法灵感"
+
+msgid "户外露营"
+msgstr "户外露营"
+
+msgid "摄影"
+msgstr "摄影"
+
+msgid "收藏推荐"
+msgstr "收藏推荐"
+
+msgid "效率时间"
+msgstr "效率时间"
+
+msgid "教程工具"
+msgstr "教程工具"
+
+msgid "数据分析"
+msgstr "数据分析"
+
+msgid "旅行游记"
+msgstr "旅行游记"
+
+msgid "日程规划"
+msgstr "日程规划"
+
+msgid "显示在博客页面右侧的侧边栏"
 msgstr "显示在博客页面右侧的侧边栏"
 
-msgid "Display at the bottom of pages"
+msgid "显示在页面底部的组件区域"
 msgstr "显示在页面底部的组件区域"
+
+msgid "游戏"
+msgstr "游戏"
+
+msgid "环球视野"
+msgstr "环球视野"
+
+msgid "理财"
+msgstr "理财"
+
+msgid "硬件数码"
+msgstr "硬件数码"
+
+msgid "编程开发"
+msgstr "编程开发"
+
+msgid "网络安全"
+msgstr "网络安全"
+
+msgid "职场"
+msgstr "职场"
+
+msgid "设计美学"
+msgstr "设计美学"
+
+msgid "读书"
+msgstr "读书"
+
+msgid "账号安全"
+msgstr "账号安全"
+
+msgid "资料收藏"
+msgstr "资料收藏"
+
+msgid "资讯 / 新闻"
+msgstr "资讯 / 新闻"
+
+msgid "趣味"
+msgstr "趣味"
+
+msgid "问题排查"
+msgstr "问题排查"
+
+msgid "闲聊杂谈"
+msgstr "闲聊杂谈"
+
+msgid "阳光心情"
+msgstr "阳光心情"
+
+msgid "随笔 / 博客"
+msgstr "随笔 / 博客"
+
+msgid "音乐"
+msgstr "音乐"

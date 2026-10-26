@@ -2,6 +2,7 @@
 if (!defined('ABSPATH')) exit;
 get_header();
 ?>
+<main id="main-content">
 
 <div class="single-post-header">
   <h1><i class="bi bi-search me-2"></i><?php _e('Search Results', 'prism'); ?></h1>
@@ -12,7 +13,7 @@ get_header();
   <div class="col-lg-8">
     <?php if (have_posts()) : ?>
       <?php while (have_posts()) : the_post(); ?>
-        <div class="search-result-card">
+        <article id="post-<?php the_ID(); ?>" <?php post_class('search-result-card'); ?>>
           <div class="d-flex align-items-start gap-3">
             <?php if (has_post_thumbnail()) : ?>
               <?php the_post_thumbnail(array(100, 100), array('class' => 'rounded')); ?>
@@ -28,18 +29,10 @@ get_header();
               </small>
             </div>
           </div>
-        </div>
+        </article>
       <?php endwhile; ?>
 
-      <nav class="mt-4">
-        <?php
-        echo paginate_links(array(
-          'type' => 'list',
-          'prev_text' => '«',
-          'next_text' => '»',
-        ));
-        ?>
-      </nav>
+      <?php prism_pagination(); ?>
     <?php else : ?>
       <div class="text-center py-5">
         <i class="bi bi-emoji-frown text-muted" style="font-size:3rem;"></i>
@@ -54,5 +47,7 @@ get_header();
 
   <?php get_sidebar(); ?>
 </div>
+
+</main>
 
 <?php get_footer(); ?>

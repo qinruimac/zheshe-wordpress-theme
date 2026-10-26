@@ -1,3 +1,84 @@
+/* ==========================================================================
+ * 无障碍：跳转到主内容（键盘 Tab 时显示在左上角）
+ * ======================================================================== */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1080;
+  padding: 0.5rem 1rem;
+  background: var(--brand-primary);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 0 0 0.5rem 0;
+}
+.skip-link:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+ * 列表卡片缩略图：统一 16:10 比例，避免不同尺寸图片导致卡片高度参差
+ * ======================================================================== */
+.post-card-thumb {
+  display: block;
+  overflow: hidden;
+}
+.post-card .card-img-top,
+.featured-post .card-img-top {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.featured-post .card-img-top {
+  aspect-ratio: 2 / 1;
+}
+
+/* ==========================================================================
+ * 分页：Bootstrap 5 结构补充（wp_link_pages 输出的部分项没有原生样式）
+ * ======================================================================== */
+.pagination {
+  gap: 0.25rem;
+}
+.pagination .page-link {
+  border-radius: 0.5rem;
+  border: 1px solid #dee2e6;
+  color: var(--brand-primary);
+}
+.pagination .page-item.active .page-link {
+  background: var(--brand-gradient);
+  border-color: transparent;
+  color: #fff;
+}
+
+/* ==========================================================================
+ * Hero 备选风格（Customizer 中切换）
+ * ======================================================================== */
+.blog-hero-dark {
+  background: linear-gradient(135deg, #212529 0%, #343a40 100%) !important;
+}
+
+/* ==========================================================================
+ * 评论卡片
+ * ======================================================================== */
+.comment-card .comment-content > :last-child {
+  margin-bottom: 0;
+}
+.comment-list .children {
+  margin-left: 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid #e9ecef;
+  list-style: none;
+}
+
+/* ==========================================================================
+ * 置顶文章标识（依赖模板中的 post_class() 才会生效）
+ * ======================================================================== */
+.post-card.sticky,
+.featured-post.sticky {
+  border-left: 3px solid var(--brand-primary);
+}
+
 .navbar-toggler:focus {
   box-shadow: none;
 }

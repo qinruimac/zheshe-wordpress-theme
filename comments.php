@@ -18,7 +18,7 @@ if (post_password_required()) {
         'type' => 'comment',
         'avatar_size' => 48,
         'format' => 'html5',
-        'reply_text' => '<i class="bi bi-reply"></i> ' . __('Reply', 'prism'),
+        'callback' => 'prism_comment_callback',
       ));
       ?>
     </div>
@@ -46,7 +46,8 @@ if (post_password_required()) {
     ),
     'submit_button' => '<button name="%1$s" type="submit" id="%2$s" class="%3$s">%4$s</button>',
     'submit_field' => '<div class="text-end">%1$s %2$s</div>',
-    'class_submit' => 'btn btn-primary',
+    'class_submit' => 'submit btn btn-primary',
+    'class_form' => 'comment-form mt-4 p-3 bg-white rounded-3 shadow-sm',
   ));
   ?>
 </div>

@@ -1,9 +1,10 @@
 <?php
 if (!defined('ABSPATH')) exit;
 get_header();
-
-while (have_posts()) : the_post();
 ?>
+<main id="main-content">
+
+<?php while (have_posts()) : the_post(); ?>
 
 <!-- 页面头部 -->
 <div class="single-post-header">
@@ -15,8 +16,9 @@ while (have_posts()) : the_post();
   <!-- 页面内容 -->
   <div class="col-lg-8">
     <div class="single-post-content">
+      <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
       <?php if (has_post_thumbnail()) : ?>
-        <?php the_post_thumbnail('large', array('class' => 'mb-4')); ?>
+        <?php the_post_thumbnail('prism-featured', array('class' => 'mb-4')); ?>
       <?php endif; ?>
 
       <div class="entry-content">
@@ -34,6 +36,7 @@ while (have_posts()) : the_post();
           <?php comments_template(); ?>
         </div>
       <?php endif; ?>
+      </article>
     </div>
   </div>
 
@@ -42,5 +45,7 @@ while (have_posts()) : the_post();
 </div>
 
 <?php endwhile; ?>
+
+</main>
 
 <?php get_footer(); ?>

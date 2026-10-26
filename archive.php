@@ -2,6 +2,7 @@
 if (!defined('ABSPATH')) exit;
 get_header();
 ?>
+<main id="main-content">
 
 <div class="single-post-header">
   <?php if (is_category()) : ?>
@@ -30,36 +31,12 @@ get_header();
       <div class="row g-3">
         <?php while (have_posts()) : the_post(); ?>
           <div class="col-md-6">
-            <div class="post-card card h-100">
-              <?php if (has_post_thumbnail()) : ?>
-                <a href="<?php the_permalink(); ?>">
-                  <?php the_post_thumbnail('medium', array('class' => 'card-img-top')); ?>
-                </a>
-              <?php endif; ?>
-              <div class="card-body">
-                <?php echo prism_post_categories(); ?>
-                <h6 class="card-title">
-                  <a href="<?php the_permalink(); ?>" class="text-decoration-none text-dark"><?php the_title(); ?></a>
-                </h6>
-                <p class="card-text small text-muted"><?php echo esc_html(get_the_excerpt()); ?></p>
-                <small class="text-muted">
-                  <?php echo get_the_date(); ?> · <i class="bi bi-eye"></i> <?php echo esc_html(prism_post_views()); ?>
-                </small>
-              </div>
-            </div>
+            <?php get_template_part('template-parts/content-card'); ?>
           </div>
         <?php endwhile; ?>
       </div>
 
-      <nav class="mt-4">
-        <?php
-        echo paginate_links(array(
-          'type' => 'list',
-          'prev_text' => '«',
-          'next_text' => '»',
-        ));
-        ?>
-      </nav>
+      <?php prism_pagination(); ?>
     <?php else : ?>
       <div class="text-center py-5">
         <i class="bi bi-inbox text-muted" style="font-size:3rem;"></i>
@@ -70,5 +47,7 @@ get_header();
 
   <?php get_sidebar(); ?>
 </div>
+
+</main>
 
 <?php get_footer(); ?>

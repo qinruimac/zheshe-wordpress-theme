@@ -1,0 +1,82 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 2,
+  "settings": {
+    "appearanceTools": true,
+    "layout": {
+      "contentSize": "800px",
+      "wideSize": "1100px"
+    },
+    "color": {
+      "palette": [
+        { "slug": "brand", "color": "#667eea", "name": "Brand" },
+        { "slug": "brand-dark", "color": "#764ba2", "name": "Brand Dark" },
+        { "slug": "dark", "color": "#212529", "name": "Dark" },
+        { "slug": "grey", "color": "#6c757d", "name": "Grey" },
+        { "slug": "light", "color": "#f8f9fa", "name": "Light" },
+        { "slug": "white", "color": "#ffffff", "name": "White" }
+      ],
+      "gradients": [
+        {
+          "slug": "brand-gradient",
+          "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          "name": "Purple-Blue Gradient"
+        }
+      ]
+    },
+    "typography": {
+      "fontSizes": [
+        { "slug": "small", "size": "0.875rem", "name": "Small" },
+        { "slug": "medium", "size": "1rem", "name": "Medium" },
+        { "slug": "large", "size": "1.25rem", "name": "Large" },
+        { "slug": "x-large", "size": "1.75rem", "name": "Extra Large" }
+      ],
+      "lineHeight": true,
+      "dropCap": false
+    },
+    "spacing": {
+      "units": ["px", "rem", "em", "%"],
+      "padding": true,
+      "margin": true,
+      "blockGap": true
+    },
+    "blocks": {
+      "core/image": {
+        "border": { "radius": true }
+      },
+      "core/quote": {
+        "border": { "color": true, "width": true }
+      }
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "#ffffff",
+      "text": "#212529"
+    },
+    "typography": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+      "fontSize": "1rem",
+      "lineHeight": "1.8"
+    },
+    "elements": {
+      "link": {
+        "color": { "text": "var(--wp--preset--color--brand)" },
+        ":hover": { "typography": { "textDecoration": "underline" } }
+      },
+      "h1": { "typography": { "fontWeight": "700" } },
+      "h2": { "typography": { "fontWeight": "700" } },
+      "h3": { "typography": { "fontWeight": "600" } }
+    },
+    "blocks": {
+      "core/quote": {
+        "border": { "left": { "width": "4px", "color": "var(--wp--preset--color--brand)" } },
+        "spacing": { "padding": { "left": "1rem" } }
+      },
+      "core/code": {
+        "color": { "background": "#f8f9fa" },
+        "border": { "radius": "0.5rem" }
+      }
+    }
+  }
+}

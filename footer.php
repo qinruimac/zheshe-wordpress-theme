@@ -5,8 +5,8 @@ if (!defined('ABSPATH')) exit;
     <div class="container">
       <div class="row">
         <div class="col-md-4 mb-3">
-          <h6 class="fw-bold mb-2"><?php bloginfo('name'); ?></h6>
-          <p class="small"><?php bloginfo('description'); ?></p>
+          <h6 class="fw-bold mb-2"><?php echo esc_html(get_bloginfo('name')); ?></h6>
+          <p class="small"><?php echo esc_html(get_bloginfo('description')); ?></p>
         </div>
         <div class="col-md-4 mb-3">
           <h6 class="fw-bold mb-2"><?php _e('Quick Links', 'prism'); ?></h6>
@@ -51,7 +51,7 @@ if (!defined('ABSPATH')) exit;
       </div>
       <hr class="opacity-25">
       <div class="text-center small">
-        <p>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?> · Powered by WordPress · Theme Designed by <a href="https://eRui.org" class="text-white">eRui.org</a></p>
+        <p>&copy; <?php echo esc_html(wp_date('Y')); ?> <?php echo esc_html(get_bloginfo('name')); ?> · Powered by WordPress · Theme Designed by <a href="https://eRui.org" class="text-white">eRui.org</a></p>
       </div>
     </div>
   </footer>

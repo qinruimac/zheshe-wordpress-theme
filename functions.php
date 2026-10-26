@@ -1,6 +1,13 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
+/**
+ * 内容区宽度（WordPress 规范要求，影响 oEmbed 与图片最大宽度）
+ */
+if (!isset($content_width)) {
+    $content_width = 800;
+}
+
 function prism_setup() {
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
@@ -13,10 +20,31 @@ function prism_setup() {
     ));
     add_theme_support('html5', array(
         'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script',
+        'navigation-widgets',
     ));
     add_theme_support('responsive-embeds');
     add_theme_support('editor-styles');
     add_theme_support('wp-block-styles');
+    add_theme_support('align-wide');
+    add_theme_support('post-thumbnails');
+
+    // 编辑器配色，与 .blog-hero / 主题主色保持一致
+    add_theme_support('editor-color-palette', array(
+        array('name' => __('Brand', 'prism'), 'slug' => 'brand', 'color' => '#667eea'),
+        array('name' => __('Brand Dark', 'prism'), 'slug' => 'brand-dark', 'color' => '#764ba2'),
+        array('name' => __('Dark', 'prism'), 'slug' => 'dark', 'color' => '#212529'),
+        array('name' => __('Grey', 'prism'), 'slug' => 'grey', 'color' => '#6c757d'),
+        array('name' => __('Light', 'prism'), 'slug' => 'light', 'color' => '#f8f9fa'),
+        array('name' => __('White', 'prism'), 'slug' => 'white', 'color' => '#ffffff'),
+    ));
+
+    // 古腾堡编辑器样式
+    add_editor_style('assets/css/editor-style.css');
+
+    // 列表卡片：统一 16:10 裁切，避免不同比例图片导致卡片高度参差
+    add_image_size('prism-card', 800, 500, true);
+    // 特色文章大图：统一 2:1
+    add_image_size('prism-featured', 1200, 600, true);
 
     register_nav_menus(array(
         'primary' => __('Primary Menu', 'prism'),
@@ -36,14 +64,54 @@ function prism_load_textdomain() {
 }
 add_action('after_setup_theme', 'prism_load_textdomain', 5);
 
-function prism_scripts() {
-    wp_enqueue_style('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css', array(), '5.3.2');
-    wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css', array(), '1.11.1');
-    wp_enqueue_style('prism-style', get_stylesheet_uri(), array('bootstrap', 'bootstrap-icons'), '1.0.0');
-    wp_enqueue_style('prism-custom', get_template_directory_uri() . '/assets/css/custom.css', array('prism-style'), '1.0.0');
+/**
+ * 静态资源来源：默认使用主题内置的本地资源（assets/vendor/），
+ * 这样不依赖任何外部 CDN，国内访问也能稳定加载。
+ * 如需改用 CDN（例如想减少仓库体积），可在子主题中：
+ *   add_filter('prism_use_local_assets', '__return_false');
+ */
+function prism_use_local_assets() {
+    return (bool) apply_filters('prism_use_local_assets', true);
+}
 
-    wp_enqueue_script('bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js', array(), '5.3.2', true);
-    wp_enqueue_script('prism-main', get_template_directory_uri() . '/assets/js/main.js', array('bootstrap'), '1.0.0', true);
+function prism_asset_url($vendor_path, $cdn_url) {
+    if (prism_use_local_assets()) {
+        // 本地文件缺失时自动回退到 CDN
+        $local_file = get_template_directory() . '/assets/vendor/' . $vendor_path;
+        if (!file_exists($local_file)) {
+            return $cdn_url;
+        }
+        return get_template_directory_uri() . '/assets/vendor/' . $vendor_path;
+    }
+    return $cdn_url;
+}
+
+function prism_scripts() {
+    $theme_uri = get_template_directory_uri();
+
+    wp_enqueue_style(
+        'bootstrap',
+        prism_asset_url('bootstrap/css/bootstrap.min.css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css'),
+        array(),
+        '5.3.2'
+    );
+    wp_enqueue_style(
+        'bootstrap-icons',
+        prism_asset_url('bootstrap-icons/bootstrap-icons.min.css', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css'),
+        array(),
+        '1.11.1'
+    );
+    wp_enqueue_style('prism-style', get_stylesheet_uri(), array('bootstrap', 'bootstrap-icons'), '1.1.0');
+    wp_enqueue_style('prism-custom', $theme_uri . '/assets/css/custom.css', array('prism-style'), '1.1.0');
+
+    wp_enqueue_script(
+        'bootstrap',
+        prism_asset_url('bootstrap/js/bootstrap.bundle.min.js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'),
+        array(),
+        '5.3.2',
+        true
+    );
+    wp_enqueue_script('prism-main', $theme_uri . '/assets/js/main.js', array('bootstrap'), '1.1.0', true);
 
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
@@ -125,15 +193,57 @@ function prism_format_views($views) {
     return $views;
 }
 
-function prism_update_views() {
-    if (is_single()) {
-        $post_id = get_the_ID();
-        $views = get_post_meta($post_id, 'post_views', true);
-        if (empty($views)) $views = 0;
-        update_post_meta($post_id, 'post_views', $views + 1);
+/**
+ * 判断当前访客是否为常见爬虫/预览抓取（不计入浏览量）
+ */
+function prism_is_bot_request() {
+    $ua = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
+    if ('' === $ua) {
+        return false;
     }
+    $patterns = array('bot', 'crawl', 'spider', 'slurp', 'preview', 'feed', 'curl', 'wget', 'python-requests', 'headlesschrome');
+    foreach ($patterns as $pattern) {
+        if (false !== strpos($ua, $pattern)) {
+            return true;
+        }
+    }
+    return false;
 }
-add_action('wp_head', 'prism_update_views');
+
+function prism_update_views() {
+    // 只统计文章详情页；排除预览、自定义器iframe、Feed、以及爬虫流量
+    if (!is_singular('post') || is_preview() || is_feed() || is_robots()) {
+        return;
+    }
+    if (prism_is_bot_request()) {
+        return;
+    }
+    // 同一访客短时间内重复刷新不重复计数（默认 1 小时内的同一 IP 只计一次）
+    $transient_key = 'prism_view_' . get_the_ID() . '_' . md5(prism_get_visitor_ip());
+    if (get_transient($transient_key)) {
+        return;
+    }
+    set_transient($transient_key, 1, HOUR_IN_SECONDS);
+
+    $post_id = get_the_ID();
+    $views = (int) get_post_meta($post_id, 'post_views', true);
+    update_post_meta($post_id, 'post_views', $views + 1);
+}
+// 挂在 wp（主查询就绪后）而非 wp_head，此前一进 <head> 就执行、每次刷新均 +1
+add_action('wp', 'prism_update_views');
+
+function prism_get_visitor_ip() {
+    $keys = array('HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR');
+    foreach ($keys as $key) {
+        if (!empty($_SERVER[$key])) {
+            $ip = trim(explode(',', wp_unslash($_SERVER[$key]))[0]);
+            if (false !== filter_var($ip, FILTER_VALIDATE_IP)) {
+                return $ip;
+            }
+        }
+    }
+    return '0.0.0.0';
+}
 
 function prism_category_icon($cat_id) {
     $custom = get_term_meta($cat_id, 'prism_category_icon', true);
@@ -201,7 +311,12 @@ function prism_is_category_admin_page($hook) {
 
 function prism_admin_category_icon_assets($hook) {
     if (!prism_is_category_admin_page($hook)) return;
-    wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css', array(), '1.11.1');
+    wp_enqueue_style(
+        'bootstrap-icons',
+        prism_asset_url('bootstrap-icons/bootstrap-icons.min.css', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css'),
+        array(),
+        '1.11.1'
+    );
 }
 add_action('admin_enqueue_scripts', 'prism_admin_category_icon_assets');
 
@@ -328,4 +443,168 @@ function prism_custom_logo() {
         return get_custom_logo();
     }
     return '<a class="navbar-brand fw-bold" href="' . esc_url(home_url('/')) . '"><i class="bi bi-journal-richtext text-primary me-1"></i>' . get_bloginfo('name') . '</a>';
+}
+
+/* ========================================================================
+ * Customizer：首页 Hero 文案（此前只读取 get_theme_mod 却未注册设置，
+ * 导致后台没有入口，只能改代码）
+ * ===================================================================== */
+function prism_customize_register($wp_customize) {
+    $wp_customize->add_section('prism_hero', array(
+        'title' => __('Home Hero', 'prism'),
+        'description' => __('Customize the headline area of the blog homepage.', 'prism'),
+        'priority' => 30,
+        'active_callback' => function () {
+            // 仅在首页/博客主页相关页面显示该面板
+            return is_home() || is_front_page() || is_customize_preview();
+        },
+    ));
+
+    $wp_customize->add_setting('blog_hero_title', array(
+        'default' => __('Share knowledge, record life', 'prism'),
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage',
+    ));
+    $wp_customize->add_control('blog_hero_title', array(
+        'label' => __('Hero Title', 'prism'),
+        'section' => 'prism_hero',
+        'type' => 'text',
+    ));
+
+    $wp_customize->add_setting('blog_hero_subtitle', array(
+        'default' => __('Explore technology, life and travel, find resonance here.', 'prism'),
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage',
+    ));
+    $wp_customize->add_control('blog_hero_subtitle', array(
+        'label' => __('Hero Subtitle', 'prism'),
+        'section' => 'prism_hero',
+        'type' => 'textarea',
+    ));
+
+    // Hero 背景内置两种配色，随主题 evolve 可继续扩展
+    $wp_customize->add_setting('blog_hero_style', array(
+        'default' => 'gradient',
+        'sanitize_callback' => 'prism_sanitize_choice',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('blog_hero_style', array(
+        'label' => __('Hero Style', 'prism'),
+        'section' => 'prism_hero',
+        'type' => 'select',
+        'choices' => array(
+            'gradient' => __('Purple-Blue Gradient', 'prism'),
+            'dark' => __('Solid Dark', 'prism'),
+        ),
+    ));
+
+    $wp_customize->get_setting('blogname')->transport = 'postMessage';
+}
+add_action('customize_register', 'prism_customize_register');
+
+function prism_sanitize_choice($input, $setting) {
+    $choices = $setting->manager->get_control($setting->id)->choices;
+    return array_key_exists($input, $choices) ? $input : $setting->default;
+}
+
+function prism_customize_preview_js() {
+    wp_enqueue_script(
+        'prism-customizer',
+        get_template_directory_uri() . '/assets/js/customizer.js',
+        array('customize-preview'),
+        '1.1.0',
+        true
+    );
+}
+add_action('customize_preview_init', 'prism_customize_preview_js');
+
+/* ========================================================================
+ * 分页：输出 Bootstrap 5 结构（paginate_links 默认输出的是 page-numbers 类，
+ * Bootstrap 不认，所以分页一直是裸链接）
+ * ===================================================================== */
+function prism_pagination($args = array()) {
+    $links = paginate_links(wp_parse_args($args, array(
+        'type' => 'array',
+        'prev_text' => '<i class="bi bi-chevron-left"></i>',
+        'next_text' => '<i class="bi bi-chevron-right"></i>',
+        'mid_size' => 1,
+    )));
+
+    if (!is_array($links) || empty($links)) {
+        return;
+    }
+
+    echo '<nav class="mt-4" aria-label="' . esc_attr__('Posts navigation', 'prism') . '">';
+    echo '<ul class="pagination justify-content-center flex-wrap">';
+    foreach ($links as $link) {
+        $item_class = 'page-item';
+        if (false !== strpos($link, 'current')) {
+            $item_class .= ' active';
+        } elseif (false !== strpos($link, 'dots')) {
+            $item_class .= ' disabled';
+        }
+        $link = str_replace('page-numbers', 'page-link', $link);
+        if (false !== strpos($link, 'current')) {
+            $link = str_replace('<a', '<a aria-current="page"', $link);
+        }
+        echo '<li class="' . esc_attr($item_class) . '">' . $link . '</li>';
+    }
+    echo '</ul></nav>';
+}
+
+// 文章内分页（wp_link_pages）同样补上 Bootstrap 的 page-item / page-link 类
+function prism_link_pages_link($link) {
+    if (false === strpos($link, 'class=')) {
+        $link = str_replace('<a href=', '<a class="page-link" href=', $link);
+    } else {
+        $link = preg_replace('/class="([^"]*)"/', 'class="$1 page-link"', $link, 1);
+    }
+    return $link;
+}
+add_filter('wp_link_pages_link', 'prism_link_pages_link');
+
+/* ========================================================================
+ * 评论列表渲染回调：让 custom.css 中的 .comment-card 等样式真正生效
+ * ===================================================================== */
+function prism_comment_callback($comment, $args, $depth) {
+    $tag = ('div' === $args['style']) ? 'div' : 'li';
+    ?>
+    <<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class('comment-card card border-0 shadow-sm mb-3'); ?>>
+      <div class="card-body">
+        <div class="d-flex gap-3">
+          <?php if (0 !== $args['avatar_size']) : ?>
+            <?php echo get_avatar($comment, $args['avatar_size'], '', '', array('class' => 'rounded-circle flex-shrink-0')); ?>
+          <?php endif; ?>
+          <div class="flex-grow-1">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+              <span class="fw-bold"><?php comment_author(); ?></span>
+              <a class="small text-muted text-decoration-none" href="<?php echo esc_url(get_comment_link($comment)); ?>">
+                <time datetime="<?php comment_time('c'); ?>"><?php comment_date(); ?> <?php comment_time(); ?></time>
+              </a>
+              <?php edit_comment_link(__('Edit', 'prism'), '<span class="small">', '</span>'); ?>
+            </div>
+
+            <?php if ('0' === $comment->comment_approved) : ?>
+              <p class="small text-warning-emphasis mb-2"><?php _e('Your comment is awaiting moderation.', 'prism'); ?></p>
+            <?php endif; ?>
+
+            <div class="comment-content small">
+              <?php comment_text(); ?>
+            </div>
+
+            <div class="mt-2">
+              <?php
+              comment_reply_link(array_merge($args, array(
+                  'depth' => $depth,
+                  'add_below' => 'comment',
+                  'reply_text' => '<i class="bi bi-reply me-1"></i>' . __('Reply', 'prism'),
+                  'class' => 'btn btn-sm btn-outline-secondary rounded-pill',
+              )));
+              ?>
+            </div>
+          </div>
+        </div>
+      </div>
+    </<?php echo $tag; ?>>
+    <?php
 }

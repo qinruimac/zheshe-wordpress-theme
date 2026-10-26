@@ -3,6 +3,7 @@ if (!defined('ABSPATH')) exit;
 get_header();
 ?>
 
+<main id="main-content">
 <div class="error-404">
   <div class="single-post-header mb-4">
     <h1>404</h1>
@@ -20,5 +21,6 @@ get_header();
     </a>
   </div>
 </div>
+</main>
 
 <?php get_footer(); ?>

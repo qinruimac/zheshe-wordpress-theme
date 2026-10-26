@@ -11,9 +11,11 @@ if (!defined('ABSPATH')) exit;
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<a class="skip-link visually-hidden-focusable" href="#main-content"><?php _e('Skip to content', 'prism'); ?></a>
+
 <div class="container">
   <!-- 博客导航 -->
-  <nav class="blog-nav navbar navbar-expand-lg navbar-light mb-4">
+  <nav class="blog-nav navbar navbar-expand-lg navbar-light mb-4" role="navigation" aria-label="<?php esc_attr_e('Primary navigation', 'prism'); ?>">
     <button class="btn btn-light d-lg-none me-2" type="button" data-bs-toggle="collapse" data-bs-target="#blogNav">
       <i class="bi bi-list"></i>
     </button>
@@ -21,7 +23,7 @@ if (!defined('ABSPATH')) exit;
       <?php the_custom_logo(); ?>
     <?php else : ?>
       <a class="navbar-brand fw-bold" href="<?php echo esc_url(home_url('/')); ?>">
-        <i class="bi bi-journal-richtext text-primary me-1"></i><?php bloginfo('name'); ?>
+        <i class="bi bi-journal-richtext text-primary me-1"></i><?php echo esc_html(get_bloginfo('name')); ?>
       </a>
     <?php endif; ?>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#blogNav">
