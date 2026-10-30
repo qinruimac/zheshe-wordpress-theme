@@ -227,8 +227,238 @@ class Zheshe_Links_Widget extends WP_Widget {
 
 function zheshe_register_custom_widgets() {
     register_widget('Zheshe_Links_Widget');
+    register_widget('Zheshe_Search_Widget');
+    register_widget('Zheshe_Categories_Widget');
+    register_widget('Zheshe_Tags_Widget');
+    register_widget('Zheshe_Popular_Posts_Widget');
+    register_widget('Zheshe_Subscribe_Widget');
 }
 add_action('widgets_init', 'zheshe_register_custom_widgets');
+
+/** ---------- 侧边栏主题小工具 ---------- */
+
+/** 搜索（与主题卡片样式一致的搜索框） */
+class Zheshe_Search_Widget extends WP_Widget {
+    public function __construct() {
+        parent::__construct('zheshe_search', __('Zheshe: Search', 'zheshe'),
+            array('description' => __('Site search box with the theme card style.', 'zheshe')));
+    }
+    public function widget($args, $instance) {
+        echo $args['before_widget']; ?>
+        <form role="search" method="get" class="blog-search-form" action="<?php echo esc_url(home_url('/')); ?>">
+          <div class="input-group">
+            <input type="search" class="form-control" placeholder="<?php esc_attr_e('Search posts...', 'zheshe'); ?>" value="<?php echo get_search_query(); ?>" name="s">
+            <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+          </div>
+        </form>
+        <?php echo $args['after_widget'];
+    }
+    public function form($instance) {
+        $title = isset($instance['title']) ? $instance['title'] : '';
+        ?>
+        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title', 'zheshe'); ?></label>
+        <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>"
+               name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>">
+        <small class="description"><?php _e('Leave empty to hide the title.', 'zheshe'); ?></small></p>
+        <?php
+    }
+    public function update($new, $old) { return array('title' => sanitize_text_field(isset($new['title']) ? $new['title'] : '')); }
+}
+
+/** 分类导航（带主题图标与文章数） */
+class Zheshe_Categories_Widget extends WP_Widget {
+    public function __construct() {
+        parent::__construct('zheshe_categories', __('Zheshe: Categories', 'zheshe'),
+            array('description' => __('Category list with per-category theme icons and post counts.', 'zheshe')));
+    }
+    public function widget($args, $instance) {
+        $title  = !empty($instance['title']) ? $instance['title'] : __('Categories', 'zheshe');
+        $number = !empty($instance['number']) ? (int) $instance['number'] : 10;
+        $cats = get_categories(array('number' => $number));
+        if (empty($cats)) return;
+        echo $args['before_widget'];
+        echo $args['before_title'] . esc_html(apply_filters('widget_title', $title)) . $args['after_title']; ?>
+        <div class="list-group list-group-flush">
+        <?php foreach ($cats as $cat) :
+            $icon = zheshe_category_icon($cat->term_id); ?>
+          <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>" class="list-group-item list-group-item-action d-flex justify-content-between">
+            <span><i class="bi <?php echo esc_attr($icon); ?> me-2"></i><?php echo esc_html($cat->name); ?></span>
+            <span class="badge bg-primary rounded-pill"><?php echo esc_html($cat->count); ?></span>
+          </a>
+        <?php endforeach; ?>
+        </div>
+        <?php echo $args['after_widget'];
+    }
+    public function form($instance) {
+        $title  = isset($instance['title']) ? $instance['title'] : __('Categories', 'zheshe');
+        $number = isset($instance['number']) ? (int) $instance['number'] : 10; ?>
+        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title', 'zheshe'); ?></label>
+        <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>"
+               name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>"></p>
+        <p><label for="<?php echo esc_attr($this->get_field_id('number')); ?>"><?php _e('Number of categories', 'zheshe'); ?></label>
+        <input class="tiny-text" id="<?php echo esc_attr($this->get_field_id('number')); ?>"
+               name="<?php echo esc_attr($this->get_field_name('number')); ?>" type="number" min="1" max="50"
+               value="<?php echo esc_attr($number); ?>"></p>
+        <?php
+    }
+    public function update($new, $old) {
+        return array(
+            'title'  => sanitize_text_field(isset($new['title']) ? $new['title'] : ''),
+            'number' => max(1, min(50, (int) (isset($new['number']) ? $new['number'] : 10))),
+        );
+    }
+}
+
+/** 标签云（badge 样式） */
+class Zheshe_Tags_Widget extends WP_Widget {
+    public function __construct() {
+        parent::__construct('zheshe_tags', __('Zheshe: Tag Cloud', 'zheshe'),
+            array('description' => __('Popular tags as badges.', 'zheshe')));
+    }
+    public function widget($args, $instance) {
+        $title  = !empty($instance['title']) ? $instance['title'] : __('Popular Tags', 'zheshe');
+        $number = !empty($instance['number']) ? (int) $instance['number'] : 15;
+        $tags = get_tags(array('number' => $number, 'orderby' => 'count', 'order' => 'DESC'));
+        echo $args['before_widget'];
+        echo $args['before_title'] . esc_html(apply_filters('widget_title', $title)) . $args['after_title'];
+        if (!empty($tags)) {
+            foreach ($tags as $tag) {
+                printf('<a href="%s" class="badge bg-light text-dark tag-badge">%s</a>',
+                    esc_url(get_tag_link($tag->term_id)), esc_html($tag->name));
+            }
+        } else {
+            echo '<p class="text-muted small mb-0">' . esc_html__('No tags yet', 'zheshe') . '</p>';
+        }
+        echo $args['after_widget'];
+    }
+    public function form($instance) {
+        $title  = isset($instance['title']) ? $instance['title'] : __('Popular Tags', 'zheshe');
+        $number = isset($instance['number']) ? (int) $instance['number'] : 15; ?>
+        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title', 'zheshe'); ?></label>
+        <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>"
+               name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>"></p>
+        <p><label for="<?php echo esc_attr($this->get_field_id('number')); ?>"><?php _e('Number of tags', 'zheshe'); ?></label>
+        <input class="tiny-text" id="<?php echo esc_attr($this->get_field_id('number')); ?>"
+               name="<?php echo esc_attr($this->get_field_name('number')); ?>" type="number" min="1" max="50"
+               value="<?php echo esc_attr($number); ?>"></p>
+        <?php
+    }
+    public function update($new, $old) {
+        return array(
+            'title'  => sanitize_text_field(isset($new['title']) ? $new['title'] : ''),
+            'number' => max(1, min(50, (int) (isset($new['number']) ? $new['number'] : 15))),
+        );
+    }
+}
+
+/** 热门文章（按主题浏览量排序） */
+class Zheshe_Popular_Posts_Widget extends WP_Widget {
+    public function __construct() {
+        parent::__construct('zheshe_popular_posts', __('Zheshe: Popular Posts', 'zheshe'),
+            array('description' => __('Posts sorted by theme view count.', 'zheshe')));
+    }
+    public function widget($args, $instance) {
+        $title  = !empty($instance['title']) ? $instance['title'] : __('Popular Posts', 'zheshe');
+        $number = !empty($instance['number']) ? (int) $instance['number'] : 3;
+        $q = new WP_Query(array('posts_per_page' => $number, 'meta_key' => 'zheshe_post_views',
+                                'orderby' => 'meta_value_num', 'order' => 'DESC', 'ignore_sticky_posts' => true));
+        if (!$q->have_posts()) { wp_reset_postdata(); return; }
+        echo $args['before_widget'];
+        echo $args['before_title'] . esc_html(apply_filters('widget_title', $title)) . $args['after_title'];
+        while ($q->have_posts()) : $q->the_post(); ?>
+          <div class="d-flex gap-2 mb-3">
+            <?php if (has_post_thumbnail()) the_post_thumbnail(array(60, 60), array('class' => 'rounded flex-shrink-0')); ?>
+            <div>
+              <a href="<?php the_permalink(); ?>" class="text-decoration-none small fw-bold"><?php the_title(); ?></a>
+              <br>
+              <small class="text-muted"><?php _e('Views', 'zheshe'); ?> <?php echo esc_html(zheshe_post_views()); ?></small>
+            </div>
+          </div>
+        <?php endwhile; wp_reset_postdata();
+        echo $args['after_widget'];
+    }
+    public function form($instance) {
+        $title  = isset($instance['title']) ? $instance['title'] : __('Popular Posts', 'zheshe');
+        $number = isset($instance['number']) ? (int) $instance['number'] : 3; ?>
+        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title', 'zheshe'); ?></label>
+        <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>"
+               name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>"></p>
+        <p><label for="<?php echo esc_attr($this->get_field_id('number')); ?>"><?php _e('Number of posts', 'zheshe'); ?></label>
+        <input class="tiny-text" id="<?php echo esc_attr($this->get_field_id('number')); ?>"
+               name="<?php echo esc_attr($this->get_field_name('number')); ?>" type="number" min="1" max="10"
+               value="<?php echo esc_attr($number); ?>"></p>
+        <?php
+    }
+    public function update($new, $old) {
+        return array(
+            'title'  => sanitize_text_field(isset($new['title']) ? $new['title'] : ''),
+            'number' => max(1, min(10, (int) (isset($new['number']) ? $new['number'] : 3))),
+        );
+    }
+}
+
+/** 订阅更新（Jetpack / Mailchimp，自带头部卡片包装） */
+class Zheshe_Subscribe_Widget extends WP_Widget {
+    public function __construct() {
+        parent::__construct('zheshe_subscribe', __('Zheshe: Subscribe', 'zheshe'),
+            array('description' => __('Subscription form (requires Jetpack or Mailchimp).', 'zheshe')));
+    }
+    public function widget($args, $instance) {
+        $form = zheshe_subscription_form();
+        if ('' === $form) return;
+        echo $form; // 自带 sidebar-card 卡片包装，无需 before_widget
+    }
+    public function form($instance) {
+        echo '<p>' . esc_html__('Shows the subscription form when Jetpack or Mailchimp is active; renders nothing otherwise.', 'zheshe') . '</p>';
+    }
+    public function update($new, $old) { return array(); }
+}
+
+/**
+ * 主题启用时，把默认侧边栏布局（搜索/分类/标签/热门文章/订阅）种入 sidebar-1。
+ * 仅当侧边栏为空且尚未种过时执行，不影响用户已有的小工具配置。
+ */
+function zheshe_seed_default_sidebar() {
+    if (is_active_sidebar('sidebar-1')) {
+        update_option('zheshe_sidebar_seeded', 1);
+        return;
+    }
+    if (get_option('zheshe_sidebar_seeded')) {
+        return;
+    }
+    $sidebars = wp_get_sidebars_widgets();
+    $sidebars['sidebar-1'] = array(
+        'zheshe_search-1',
+        'zheshe_categories-1',
+        'zheshe_tags-1',
+        'zheshe_popular_posts-1',
+        'zheshe_subscribe-1',
+    );
+    wp_set_sidebars_widgets($sidebars);
+
+    $defaults = array(
+        'zheshe_search'         => array(1 => array('title' => ''), '_multiwidget' => 1),
+        'zheshe_categories'     => array(1 => array('title' => __('Categories', 'zheshe'), 'number' => 10), '_multiwidget' => 1),
+        'zheshe_tags'           => array(1 => array('title' => __('Popular Tags', 'zheshe'), 'number' => 15), '_multiwidget' => 1),
+        'zheshe_popular_posts'  => array(1 => array('title' => __('Popular Posts', 'zheshe'), 'number' => 3), '_multiwidget' => 1),
+        'zheshe_subscribe'      => array(1 => array('title' => ''), '_multiwidget' => 1),
+    );
+    foreach ($defaults as $option => $value) {
+        if (false === get_option($option)) {
+            update_option($option, $value);
+        }
+    }
+    update_option('zheshe_sidebar_seeded', 1);
+}
+add_action('after_switch_theme', 'zheshe_seed_default_sidebar');
+
+/** 兜底：FTP 覆盖升级不会触发 after_switch_theme，进后台时补种一次 */
+function zheshe_seed_default_sidebar_on_admin() {
+    if (!get_option('zheshe_sidebar_seeded')) {
+        zheshe_seed_default_sidebar();
+    }
+}
+add_action('admin_init', 'zheshe_seed_default_sidebar_on_admin');
 
 function zheshe_excerpt_length($length) {
     return 30;

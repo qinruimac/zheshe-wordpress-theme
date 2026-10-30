@@ -2,13 +2,15 @@
 
 基于 **Bootstrap 5** 的现代 WordPress 博客主题，紫蓝渐变风格，响应式设计。
 
-![Theme Version](https://img.shields.io/badge/version-1.3.0-667eea)
+![Theme Version](https://img.shields.io/badge/version-1.4.0-667eea)
 ![Requires PHP](https://img.shields.io/badge/PHP-7.4%2B-764ba2)
 ![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-21759b)
 ![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue)
 ![CDN Free](https://img.shields.io/badge/CDN-not%20required-success)
 
 ## 特性
+
+- 🧱 **侧边栏完全小工具化**：默认模块与「按钮链接」均为标准小工具，后台自由排序
 
 - 🎨 紫蓝渐变现代设计，Bootstrap 5 响应式布局
 - 🎛️ **Customizer 可视化设置**：首页 Hero 标题/副标题、Hero 风格（渐变 / 纯色深灰）实时预览
@@ -25,6 +27,12 @@
 - 🌐 内置简体中文语言包（129 条字符串已完整翻译），翻译就绪（Text Domain: `zheshe`）
 
 ## Changelog
+
+### 1.4.0
+
+- **侧边栏完全小工具化**（官方规范）：默认模块全部变为真正的小工具——
+  搜索 / 分类导航（带图标）/ 标签云 / 热门文章（按浏览量）/ 订阅更新
+- 主题启用时自动为空的侧边栏种入默认布局；已配置的小工具不受影响，可自由增删排序
 
 ### 1.3.0
 

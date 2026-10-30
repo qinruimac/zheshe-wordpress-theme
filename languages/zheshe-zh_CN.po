@@ -2,10 +2,10 @@
 # Copyright (C) 2026 eRui.org
 msgid ""
 msgstr ""
-"Project-Id-Version: Zheshe 1.3.0\n"
+"Project-Id-Version: Zheshe 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-30 10:40+0800\n"
-"PO-Revision-Date: 2026-10-30 10:40+0800\n"
+"POT-Creation-Date: 2026-10-30 11:00+0800\n"
+"PO-Revision-Date: 2026-10-30 11:00+0800\n"
 "Last-Translator: \n"
 "Language-Team: Chinese (China)\n"
 "Language: zh_CN\n"
@@ -44,6 +44,9 @@ msgstr "分类"
 
 msgid "Category icon"
 msgstr "分类图标"
+
+msgid "Category list with per-category theme icons and post counts."
+msgstr "带主题图标与文章数的分类列表。"
 
 msgid "Category:"
 msgstr "分类："
@@ -120,6 +123,9 @@ msgstr "最新文章"
 msgid "Leave a Comment"
 msgstr "发表评论"
 
+msgid "Leave empty to hide the title."
+msgstr "留空则不显示标题。"
+
 msgid "Light"
 msgstr "浅色"
 
@@ -144,6 +150,15 @@ msgstr "暂无文章"
 msgid "No tags yet"
 msgstr "暂无标签"
 
+msgid "Number of categories"
+msgstr "分类数量"
+
+msgid "Number of posts"
+msgstr "文章数量"
+
+msgid "Number of tags"
+msgstr "标签数量"
+
 msgid "One per line: Name|URL|Icon. The icon is an optional Bootstrap Icons class (default bi-link-45deg)."
 msgstr "每行一条：名称|链接|图标。图标为 Bootstrap Icons 类名，可省略（默认 bi-link-45deg）。"
 
@@ -159,11 +174,17 @@ msgstr "热门文章"
 msgid "Popular Tags"
 msgstr "热门标签"
 
+msgid "Popular tags as badges."
+msgstr "以徽章样式展示热门标签。"
+
 msgid "Post Comment"
 msgstr "发表评论"
 
 msgid "Posts navigation"
 msgstr "文章分页导航"
+
+msgid "Posts sorted by theme view count."
+msgstr "按主题浏览量排序的文章。"
 
 msgid "Previous"
 msgstr "上一篇"
@@ -198,6 +219,12 @@ msgstr "搜索文章..."
 msgid "Share knowledge, record life"
 msgstr "分享知识，记录生活"
 
+msgid "Shows the subscription form when Jetpack or Mailchimp is active; renders nothing otherwise."
+msgstr "启用 Jetpack 或 Mailchimp 时显示订阅表单，否则不渲染。"
+
+msgid "Site search box with the theme card style."
+msgstr "主题卡片样式的站内搜索框。"
+
 msgid "Skip to content"
 msgstr "跳到主要内容"
 
@@ -215,6 +242,9 @@ msgstr "订阅更新"
 
 msgid "Subscribe via RSS"
 msgstr "通过 RSS 订阅最新文章"
+
+msgid "Subscription form (requires Jetpack or Mailchimp)."
+msgstr "订阅表单（需要 Jetpack 或 Mailchimp）。"
 
 msgid "Tag:"
 msgstr "标签："
@@ -257,6 +287,21 @@ msgstr "您的评论正在等待审核。"
 
 msgid "Zheshe: Button Links"
 msgstr "Zheshe：按钮链接"
+
+msgid "Zheshe: Categories"
+msgstr "Zheshe：分类导航"
+
+msgid "Zheshe: Popular Posts"
+msgstr "Zheshe：热门文章"
+
+msgid "Zheshe: Search"
+msgstr "Zheshe：搜索"
+
+msgid "Zheshe: Subscribe"
+msgstr "Zheshe：订阅更新"
+
+msgid "Zheshe: Tag Cloud"
+msgstr "Zheshe：标签云"
 
 msgid "min read"
 msgstr "分钟阅读"

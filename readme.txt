@@ -4,7 +4,7 @@ Contributors: qinruimac
 Requires at least: 6.0
 Tested up to: 7.1.3
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, right-sidebar, custom-colors, custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, sticky-post, responsive-layout
@@ -72,6 +72,14 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 3. Category archive with the sidebar
 
 == Changelog ==
+
+= 1.4.0 =
+* Refactored the sidebar to be fully widget-driven (official WordPress practice)
+* All default sidebar modules became real widgets: Zheshe Search, Categories (with theme icons),
+  Tag Cloud, Popular Posts (by view count) and Subscribe
+* On theme activation an empty sidebar is seeded with the default layout; existing widget
+  configurations are never touched
+* Language pack expanded to 144 strings
 
 = 1.3.0 =
 * Added the "Button Links" sidebar widget: one line per button (Name|URL|Icon), ideal for
