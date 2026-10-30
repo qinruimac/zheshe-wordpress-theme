@@ -4,7 +4,7 @@ Contributors: qinruimac
 Requires at least: 6.0
 Tested up to: 7.1.3
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, right-sidebar, custom-colors, custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, sticky-post, responsive-layout
@@ -72,6 +72,11 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 3. Category archive with the sidebar
 
 == Changelog ==
+
+= 1.4.1 =
+* Added universal widget styling so default WordPress widgets (Recent Posts, Categories,
+  Search, Tag Cloud, RSS, Meta) match the theme card look: dashed separators, hover accents,
+  themed search form and tag badges
 
 = 1.4.0 =
 * Refactored the sidebar to be fully widget-driven (official WordPress practice)
