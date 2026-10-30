@@ -4,7 +4,7 @@ Contributors: qinruimac
 Requires at least: 6.0
 Tested up to: 7.1.3
 Requires PHP: 7.4
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, right-sidebar, custom-colors, custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, sticky-post, responsive-layout
@@ -39,7 +39,7 @@ Features:
 6. (Optional) Go to Posts → Categories → Edit to pick an icon for each category.
 
 Upgrading: WordPress cannot overwrite a theme by uploading a ZIP. To upgrade, download
-`zheshe-overlay.zip` from the release, extract it, and upload the files over
+`zheshe.zip` from the release, extract it locally, and upload the files over
 `wp-content/themes/zheshe/` via FTP. The theme slug stays the same, so your Customizer
 settings, menus and widgets are preserved.
 
@@ -72,6 +72,11 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 3. Category archive with the sidebar
 
 == Changelog ==
+
+= 1.4.2 =
+* Theme CSS/JS assets are now enqueued with the file modification timestamp as the version
+  parameter, so caches (Cloudflare, browsers) pick up changes immediately on every update
+* Dropped the separate overlay package; zheshe.zip now serves both installs and manual upgrades
 
 = 1.4.1 =
 * Added universal widget styling so default WordPress widgets (Recent Posts, Categories,

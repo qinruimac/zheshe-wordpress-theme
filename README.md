@@ -75,8 +75,9 @@
 4. （可选）文章 → 分类 → 编辑分类，为分类选择一个图标。
 
 > **升级提示**：WordPress 后台「上传主题」只会全新安装、不会覆盖已有目录。
-> 升级请下载 Release 里的 `zheshe-overlay.zip`，解压后通过 FTP 覆盖到 `wp-content/themes/zheshe/`，
-> 这样主题 slug 不变，Customizer 设置、菜单和小工具都会保留。
+> 升级方式：下载 Release 里的 `zheshe.zip`，本地解压后把文件通过 FTP 覆盖到
+> `wp-content/themes/zheshe/`，主题 slug 不变，Customizer 设置、菜单和小工具都会保留。
+> 主题 CSS/JS 的链接自带文件时间戳版本号，覆盖后 Cloudflare/浏览器缓存会自动失效。
 
 ## 目录结构
 

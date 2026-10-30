@@ -86,6 +86,15 @@ function zheshe_asset_url($vendor_path, $cdn_url) {
     return $cdn_url;
 }
 
+/**
+ * 主题自有资源的版本号：取文件修改时间戳。
+ * 每次文件变动 URL 即变化（?ver=时间戳），Cloudflare/浏览器等缓存会立即失效拉取新文件。
+ */
+function zheshe_asset_ver($rel_path) {
+    $file = get_template_directory() . '/' . ltrim($rel_path, '/');
+    return file_exists($file) ? (string) filemtime($file) : wp_get_theme()->get('Version');
+}
+
 function zheshe_scripts() {
     $theme_uri = get_template_directory_uri();
 
@@ -101,8 +110,8 @@ function zheshe_scripts() {
         array(),
         '1.11.1'
     );
-    wp_enqueue_style('zheshe-style', get_stylesheet_uri(), array('bootstrap', 'bootstrap-icons'), '1.1.0');
-    wp_enqueue_style('zheshe-custom', $theme_uri . '/assets/css/custom.css', array('zheshe-style'), '1.1.0');
+    wp_enqueue_style('zheshe-style', get_stylesheet_uri(), array('bootstrap', 'bootstrap-icons'), zheshe_asset_ver('style.css'));
+    wp_enqueue_style('zheshe-custom', $theme_uri . '/assets/css/custom.css', array('zheshe-style'), zheshe_asset_ver('assets/css/custom.css'));
 
     wp_enqueue_script(
         'bootstrap',
@@ -111,7 +120,7 @@ function zheshe_scripts() {
         '5.3.2',
         true
     );
-    wp_enqueue_script('zheshe-main', $theme_uri . '/assets/js/main.js', array('bootstrap'), '1.1.0', true);
+    wp_enqueue_script('zheshe-main', $theme_uri . '/assets/js/main.js', array('bootstrap'), zheshe_asset_ver('assets/js/main.js'), true);
 
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
@@ -904,7 +913,7 @@ function zheshe_customize_preview_js() {
         'zheshe-customizer',
         get_template_directory_uri() . '/assets/js/customizer.js',
         array('customize-preview'),
-        '1.1.0',
+        zheshe_asset_ver('assets/js/customizer.js'),
         true
     );
 }
