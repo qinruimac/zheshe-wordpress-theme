@@ -4,7 +4,7 @@ Contributors: qinruimac
 Requires at least: 6.0
 Tested up to: 7.1.3
 Requires PHP: 7.4
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, right-sidebar, custom-colors, custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, sticky-post, responsive-layout
@@ -72,6 +72,11 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 3. Category archive with the sidebar
 
 == Changelog ==
+
+= 1.4.3 =
+* Sidebar widget titles added via the block editor (independent H2 blocks) are now unified
+  to the theme heading style via CSS, so every widget title looks the same
+* Excerpts strip leading Markdown markers (##, >) so they no longer leak into the post grid
 
 = 1.4.2 =
 * Theme CSS/JS assets are now enqueued with the file modification timestamp as the version

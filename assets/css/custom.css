@@ -128,6 +128,22 @@
   padding: 0;
 }
 
+/* 小工具标题统一：后台块编辑器插入的标题是独立 H2 块，不走主题的 h5 包装，
+   这里把侧边栏卡片内的所有标题（h1-h6 及 .widget-title）统一为主题 h5 观感 */
+.sidebar-card h1,
+.sidebar-card h2,
+.sidebar-card h3,
+.sidebar-card h4,
+.sidebar-card h5,
+.sidebar-card h6,
+.sidebar-card .widget-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.35;
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
 /* 列表项：细分隔线 + 悬停高亮 */
 .sidebar-card ul li {
   padding: 0.55rem 0;

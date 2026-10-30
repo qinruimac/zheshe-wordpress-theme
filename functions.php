@@ -477,6 +477,17 @@ add_filter('excerpt_length', 'zheshe_excerpt_length');
 function zheshe_excerpt_more($more) {
     return '...';
 }
+
+/**
+ * 摘要清理：去掉 Markdown 书写的行首符号（#/引用符），避免摘要出现「## 标题」这类残留
+ */
+function zheshe_clean_excerpt($text) {
+    $text = preg_replace('/^#{1,6}\s+/m', '', $text);
+    $text = preg_replace('/^&gt;\s?|^>\s?/m', '', $text);
+    $text = preg_replace('/^[-*]{3,}\s*$/m', '', $text);
+    return trim($text);
+}
+add_filter('get_the_excerpt', 'zheshe_clean_excerpt', 20);
 add_filter('excerpt_more', 'zheshe_excerpt_more');
 
 function zheshe_post_categories() {
