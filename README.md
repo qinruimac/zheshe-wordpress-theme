@@ -2,7 +2,7 @@
 
 基于 **Bootstrap 5** 的现代 WordPress 博客主题，紫蓝渐变风格，响应式设计。
 
-![Theme Version](https://img.shields.io/badge/version-1.2.0-667eea)
+![Theme Version](https://img.shields.io/badge/version-1.3.0-667eea)
 ![Requires PHP](https://img.shields.io/badge/PHP-7.4%2B-764ba2)
 ![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-21759b)
 ![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue)
@@ -21,9 +21,18 @@
 - 🧱 支持 Gutenberg：自定义调色板、渐变、宽屏对齐、`theme.json` 排版控制
 - ♿ 无障碍：skip-link、`<main>` landmark、导航 aria-label、焦点样式
 - 📦 **零外部依赖**：Bootstrap 与图标全部内置在 `assets/vendor/`，不依赖 CDN
-- 🌐 内置简体中文语言包（121 条字符串已完整翻译），翻译就绪（Text Domain: `zheshe`）
+- 🧩 **「按钮链接」小工具**：侧边栏一键添加十年之约、虫洞等跳转按钮
+- 🌐 内置简体中文语言包（129 条字符串已完整翻译），翻译就绪（Text Domain: `zheshe`）
 
 ## Changelog
+
+### 1.3.0
+
+- 新增「按钮链接」小工具：每行一条 `名称|链接|图标` 生成一列跳转按钮，
+  适合「十年之约」「虫洞」等博客圈外链；支持在新窗口打开
+- **修复小工具区从未渲染的问题**：注册过的「博客侧边栏」「底部区域」现在真正可用，
+  自定义组件会显示在侧边栏分类卡片上方与页脚栏之后
+- 语言包扩充至 129 条
 
 ### 1.2.0
 

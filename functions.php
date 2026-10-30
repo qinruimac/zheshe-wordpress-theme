@@ -134,13 +134,101 @@ function zheshe_widgets_init() {
         'name' => __('底部区域', 'zheshe'),
         'id' => 'footer-1',
         'description' => __('显示在页面底部的组件区域', 'zheshe'),
-        'before_widget' => '<div class="col-md-3 mb-3">',
+        'before_widget' => '<div class="col-md-4 mb-3">',
         'after_widget' => '</div>',
         'before_title' => '<h6 class="fw-bold mb-2">',
         'after_title' => '</h6>',
     ));
 }
 add_action('widgets_init', 'zheshe_widgets_init');
+
+/**
+ * 「按钮链接」小工具：每行一条 `名称|链接|图标`，生成一列跳转按钮。
+ * 适用于「十年之约」「虫洞」等博客圈常见的外链按钮；图标为 Bootstrap Icons 类名，可省略。
+ */
+class Zheshe_Links_Widget extends WP_Widget {
+
+    public function __construct() {
+        parent::__construct(
+            'zheshe_links_widget',
+            __('Zheshe: Button Links', 'zheshe'),
+            array(
+                'description' => __('Each line: Name|URL|Icon (icon optional, a Bootstrap Icons class). Renders a column of buttons, e.g. Ten-Year Pact or blog wormhole links.', 'zheshe'),
+            )
+        );
+    }
+
+    public function widget($args, $instance) {
+        $rows = array_filter(array_map('trim', explode("\n", isset($instance['links']) ? $instance['links'] : '')));
+        if (empty($rows)) {
+            return;
+        }
+        $title  = !empty($instance['title']) ? $instance['title'] : __('Friend Links', 'zheshe');
+        $newtab = !empty($instance['newtab']);
+
+        echo $args['before_widget'];
+        echo $args['before_title'] . esc_html(apply_filters('widget_title', $title)) . $args['after_title'];
+        echo '<div class="d-grid gap-2 zheshe-link-buttons">';
+        foreach ($rows as $row) {
+            $parts = array_map('trim', explode('|', $row));
+            $name  = isset($parts[0]) ? $parts[0] : '';
+            $url   = isset($parts[1]) ? $parts[1] : '';
+            $icon  = isset($parts[2]) && '' !== $parts[2] ? str_replace(' ', '', $parts[2]) : 'bi-link-45deg';
+            if ('' === $name || '' === $url) {
+                continue;
+            }
+            printf(
+                '<a href="%1$s" class="btn btn-outline-primary btn-sm text-start"%2$s><i class="bi %3$s me-2"></i>%4$s</a>',
+                esc_url($url),
+                $newtab ? ' target="_blank" rel="noopener noreferrer"' : '',
+                esc_attr(sanitize_html_class($icon, 'bi-link-45deg')),
+                esc_html($name)
+            );
+        }
+        echo '</div>';
+        echo $args['after_widget'];
+    }
+
+    public function form($instance) {
+        $title  = isset($instance['title']) ? $instance['title'] : __('Friend Links', 'zheshe');
+        $links  = isset($instance['links']) ? $instance['links'] : __('Ten-Year Pact|https://www.foreverblog.cn/|bi-hourglass-split', 'zheshe');
+        $newtab = !empty($instance['newtab']);
+        ?>
+        <p>
+          <label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title', 'zheshe'); ?></label>
+          <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>"
+                 name="<?php echo esc_attr($this->get_field_name('title')); ?>"
+                 type="text" value="<?php echo esc_attr($title); ?>">
+        </p>
+        <p>
+          <label for="<?php echo esc_attr($this->get_field_id('links')); ?>"><?php _e('Button list', 'zheshe'); ?></label>
+          <textarea class="widefat" rows="6" id="<?php echo esc_attr($this->get_field_id('links')); ?>"
+                    name="<?php echo esc_attr($this->get_field_name('links')); ?>"><?php echo esc_textarea($links); ?></textarea>
+          <small class="description">
+            <?php _e('One per line: Name|URL|Icon. The icon is an optional Bootstrap Icons class (default bi-link-45deg).', 'zheshe'); ?>
+          </small>
+        </p>
+        <p>
+          <input type="checkbox" <?php checked($newtab); ?> id="<?php echo esc_attr($this->get_field_id('newtab')); ?>"
+                 name="<?php echo esc_attr($this->get_field_name('newtab')); ?>">
+          <label for="<?php echo esc_attr($this->get_field_id('newtab')); ?>"><?php _e('Open in new tab', 'zheshe'); ?></label>
+        </p>
+        <?php
+    }
+
+    public function update($new_instance, $old_instance) {
+        return array(
+            'title'  => sanitize_text_field(isset($new_instance['title']) ? $new_instance['title'] : ''),
+            'links'  => sanitize_textarea_field(isset($new_instance['links']) ? $new_instance['links'] : ''),
+            'newtab' => !empty($new_instance['newtab']),
+        );
+    }
+}
+
+function zheshe_register_custom_widgets() {
+    register_widget('Zheshe_Links_Widget');
+}
+add_action('widgets_init', 'zheshe_register_custom_widgets');
 
 function zheshe_excerpt_length($length) {
     return 30;

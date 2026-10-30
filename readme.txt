@@ -4,7 +4,7 @@ Contributors: qinruimac
 Requires at least: 6.0
 Tested up to: 7.1.3
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, right-sidebar, custom-colors, custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, sticky-post, responsive-layout
@@ -72,6 +72,13 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 3. Category archive with the sidebar
 
 == Changelog ==
+
+= 1.3.0 =
+* Added the "Button Links" sidebar widget: one line per button (Name|URL|Icon), ideal for
+  blog-network buttons such as Ten-Year Pact or blog wormhole links
+* Wired up the registered widget areas — "Blog Sidebar" now renders above the category card,
+  and "Footer Area" renders after the footer columns (previously they were registered but never displayed)
+* Language pack expanded to 129 strings
 
 = 1.2.0 =
 * Renamed the theme to Zheshe; theme slug, Text Domain and function prefix are now consistent

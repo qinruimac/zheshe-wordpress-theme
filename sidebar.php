@@ -13,6 +13,13 @@ if (!defined('ABSPATH')) exit;
     </div>
   </div>
 
+  <?php
+  // 输出后台「外观 → 小工具 → 博客侧边栏」里添加的自定义组件（如「按钮链接」）
+  if (is_active_sidebar('sidebar-1')) {
+    dynamic_sidebar('sidebar-1');
+  }
+  ?>
+
   <div class="sidebar-card card">
     <div class="card-body">
       <h5 class="mb-3"><?php _e('Categories', 'zheshe'); ?></h5>

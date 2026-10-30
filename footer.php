@@ -48,6 +48,12 @@ if (!defined('ABSPATH')) exit;
           </a>
         </div>
         <?php endif; ?>
+        <?php
+        // 输出后台「外观 → 小工具 → 底部区域」里添加的自定义组件
+        if (is_active_sidebar('footer-1')) {
+          dynamic_sidebar('footer-1');
+        }
+        ?>
       </div>
       <hr class="opacity-25">
       <div class="text-center small">
