@@ -236,11 +236,28 @@
   color: #fff !important;
 }
 
-/* 小工具内的图片兜底（RSS 缩略图等） */
+/* 小工具内的图片兜底（RSS 缩略图等），头像除外 */
 .sidebar-card img {
   max-width: 100%;
   height: auto;
   border-radius: 0.5rem;
+}
+.sidebar-card img.avatar,
+.sidebar-card img.wp-block-latest-comments__comment-avatar {
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* 评论卡片内嵌套回复的缩进（style=div 时 WP 不生成 .children 容器） */
+.comment-list .depth-2 {
+  margin-left: 1.5rem;
+}
+.comment-list .depth-3,
+.comment-list .depth-4,
+.comment-list .depth-5 {
+  margin-left: 1rem;
 }
 
 .subscribe-card .form-control {

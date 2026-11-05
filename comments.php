@@ -19,6 +19,9 @@ if (post_password_required()) {
         'avatar_size' => 48,
         'format' => 'html5',
         'callback' => 'zheshe_comment_callback',
+        // 自定义 callback 已输出完整闭合标签；阻止 Walker_Comment 在 style=div 时
+        // 追加多余的 </div><!-- #comment-## -->（否则会撑破栅格、侧边栏掉到底部）
+        'end-callback' => '__return_empty_string',
       ));
       ?>
     </div>
@@ -34,8 +37,11 @@ if (post_password_required()) {
 
   <?php
   comment_form(array(
-    'title_reply' => '<h5 class="mb-3">' . __('Leave a Comment', 'zheshe') . '</h5>',
-    'title_reply_to' => '<h5 class="mb-3">' . __('Reply to %s', 'zheshe') . '</h5>',
+    'title_reply' => __('Leave a Comment', 'zheshe'),
+    'title_reply_to' => __('Reply to %s', 'zheshe'),
+    // 用 h5 作为回复标题容器，避免 WP 默认 h3 内嵌自定义 h5 造成无效 HTML
+    'title_reply_before' => '<h5 id="reply-title" class="comment-reply-title mb-3">',
+    'title_reply_after' => '</h5>',
     'cancel_reply_link' => __('Cancel Reply', 'zheshe'),
     'label_submit' => __('Post Comment', 'zheshe'),
     'comment_field' => '<div class="mb-3"><textarea id="comment" name="comment" class="form-control" rows="4" placeholder="' . esc_attr__('Write your comment...', 'zheshe') . '" required></textarea></div>',

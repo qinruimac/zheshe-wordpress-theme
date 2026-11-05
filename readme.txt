@@ -4,7 +4,7 @@ Contributors: qinruimac
 Requires at least: 6.0
 Tested up to: 7.1.3
 Requires PHP: 7.4
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, right-sidebar, custom-colors, custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, sticky-post, responsive-layout
@@ -72,6 +72,13 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 3. Category archive with the sidebar
 
 == Changelog ==
+
+= 1.4.4 =
+* Fixed sidebar dropping below the content on posts with comments: the custom comment
+  callback now suppresses the extra closing div emitted by Walker_Comment (end-callback)
+* Fixed distorted avatars: .single-post-content img no longer overrides avatar shape/size
+* Comment form reply title uses a single h5 wrapper (no more h3 > h5 nesting)
+* Added indentation for nested replies when comments use div style
 
 = 1.4.3 =
 * Sidebar widget titles added via the block editor (independent H2 blocks) are now unified
