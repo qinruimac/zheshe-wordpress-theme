@@ -984,12 +984,15 @@ function zheshe_comment_callback($comment, $args, $depth) {
     <<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class('comment-card card border-0 shadow-sm mb-3'); ?>>
       <div class="card-body">
         <div class="d-flex gap-3">
-          <?php if (0 !== $args['avatar_size']) : ?>
-            <?php echo get_avatar($comment, $args['avatar_size'], '', '', array('class' => 'rounded-circle flex-shrink-0')); ?>
+          <?php if (0 !== $args['avatar_size']) :
+            $avatar_size = (int) $args['avatar_size']; ?>
+            <div class="comment-avatar flex-shrink-0" style="width:<?php echo esc_attr($avatar_size); ?>px;height:<?php echo esc_attr($avatar_size); ?>px;">
+              <?php echo get_avatar($comment, $avatar_size, '', '', array('class' => 'rounded-circle')); ?>
+            </div>
           <?php endif; ?>
           <div class="flex-grow-1">
             <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
-              <span class="fw-bold"><?php comment_author(); ?></span>
+              <span class="fw-bold comment-author"><?php comment_author_link(); ?></span>
               <a class="small text-muted text-decoration-none" href="<?php echo esc_url(get_comment_link($comment)); ?>">
                 <time datetime="<?php comment_time('c'); ?>"><?php comment_date(); ?> <?php comment_time(); ?></time>
               </a>

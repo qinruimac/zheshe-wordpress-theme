@@ -4,7 +4,7 @@ Contributors: qinruimac
 Requires at least: 6.0
 Tested up to: 7.1.3
 Requires PHP: 7.4
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, right-sidebar, custom-colors, custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, sticky-post, responsive-layout
@@ -72,6 +72,13 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 3. Category archive with the sidebar
 
 == Changelog ==
+
+= 1.4.5 =
+* Comment avatars now use a fixed-size wrapper with explicit width/height, so they stay
+  perfectly circular and square regardless of 2x srcset or content image rules
+* Comment author names are links again (comment_author_link()), pointing to the commenter's
+  website when one was provided, with nofollow/ugc rel attributes
+* Sidebar "Recent Comments" avatars also pinned to a fixed circular size
 
 = 1.4.4 =
 * Fixed sidebar dropping below the content on posts with comments: the custom comment
