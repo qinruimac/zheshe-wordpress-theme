@@ -57,7 +57,7 @@ if (!defined('ABSPATH')) exit;
       </div>
       <hr class="opacity-25">
       <div class="text-center small">
-        <p>&copy; <?php echo esc_html(wp_date('Y')); ?> <?php echo esc_html(get_bloginfo('name')); ?> · Powered by WordPress · Theme Designed by <a href="https://eRui.org" class="text-white">eRui.org</a></p>
+        <p>&copy; <?php echo esc_html(wp_date('Y')); ?> <?php echo esc_html(get_bloginfo('name')); ?> · <?php esc_html_e('Powered by WordPress', 'zheshe'); ?> · <?php esc_html_e('Theme Designed by', 'zheshe'); ?> <a href="https://eRui.org" class="text-white">eRui.org</a></p>
       </div>
     </div>
   </footer>

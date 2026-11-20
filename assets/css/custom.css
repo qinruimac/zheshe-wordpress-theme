@@ -59,10 +59,23 @@
 }
 
 /* ==========================================================================
+ * 图标尺寸工具类（替代模板中的内联 style）
+ * ======================================================================== */
+.zheshe-hero-icon {
+  font-size: 5rem;
+}
+.zheshe-empty-icon {
+  font-size: 3rem;
+}
+
+/* ==========================================================================
  * 评论卡片
  * ======================================================================== */
 /* 评论卡片：头像用固定尺寸容器，避免正文图片规则/2x srcset 干扰导致拉伸变形 */
 .comment-card .comment-avatar {
+  /* 尺寸来自 wp_list_comments 的 avatar_size，由评论回调写入 --zheshe-avatar-size */
+  width: var(--zheshe-avatar-size, 48px);
+  height: var(--zheshe-avatar-size, 48px);
   overflow: hidden;
   border-radius: 50%;
   flex-shrink: 0;
