@@ -2,7 +2,7 @@
 
 基于 **Bootstrap 5** 的现代 WordPress 博客主题，紫蓝渐变风格，响应式设计。
 
-![Theme Version](https://img.shields.io/badge/version-1.4.0-667eea)
+![Theme Version](https://img.shields.io/badge/version-1.4.6-667eea)
 ![Requires PHP](https://img.shields.io/badge/PHP-7.4%2B-764ba2)
 ![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-21759b)
 ![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue)
@@ -24,9 +24,55 @@
 - ♿ 无障碍：skip-link、`<main>` landmark、导航 aria-label、焦点样式
 - 📦 **零外部依赖**：Bootstrap 与图标全部内置在 `assets/vendor/`，不依赖 CDN
 - 🧩 **「按钮链接」小工具**：侧边栏一键添加十年之约、虫洞等跳转按钮
-- 🌐 内置简体中文语言包（129 条字符串已完整翻译），翻译就绪（Text Domain: `zheshe`）
+- 🌐 内置简体中文语言包（全部字符串已完整翻译），翻译就绪（Text Domain: `zheshe`）
 
 ## Changelog
+
+### 1.4.6
+
+WordPress.org 主题目录投稿前的合规整改：
+
+- **主题不再替用户写入小工具**：删除启用主题 / 每次进后台时自动种入侧边栏的逻辑及
+  `zheshe_sidebar_seeded` 选项；默认侧边栏布局改为 `starter-content`，仅在全新站点、
+  用户于 Customizer 中主动发布时生效
+- 旧浏览量键 `post_views` 的批量迁移不再挂 `admin_init`，只在有权限的用户启用主题时执行一次，
+  不再写 `zheshe_views_migrated`；读取单篇浏览量时的惰性迁移保留
+- 首页改用主循环：每页篇数跟随「设置 → 阅读」，置顶文章由 Core 处理（`.sticky`，不重复输出），
+  `index.php` 与 `front-page.php` 共用新的 `template-parts/post-list.php`；静态首页先输出页面正文再输出文章列表
+- 分类图标预览脚本改用 `wp_add_inline_script()` 输出（此前挂载的钩子永远不匹配，预览实际不生效）
+- 模板中的内联 `style` 改为 CSS 工具类（`.zheshe-hero-icon`、`.zheshe-empty-icon`），
+  评论头像尺寸改用 CSS 变量 `--zheshe-avatar-size`
+- 「Zheshe: Search」小工具改走 `searchform.php`（`get_search_form()`），补齐隐藏 label，搜索框 ID 每页唯一
+- 页脚署名文字可翻译；`filemtime()` 失败时资源版本号回退为主题版本号
+- `theme.json` 增加字体预设，并关闭 Core 默认色板，编辑器内直接使用主题色板
+- 元数据：`Tested up to` 改为主版本号格式 7.1（在 WordPress 7.1.5 上测试），移除已废弃的 `responsive-layout` 标签，语言包头部更新并重新提取
+- `readme.txt` 补齐 Copyright / Resources / Credits / Upgrade Notice，删除过时的手动覆盖升级说明
+- 新增打包脚本 `bin/build-zip.sh`
+
+### 1.4.5
+
+- 评论头像改为固定尺寸容器，2x srcset / 正文图片规则下也保持正圆
+- 评论者名字恢复为链接（`comment_author_link()`）
+- 侧边栏「近期评论」头像固定为圆形尺寸
+
+### 1.4.4
+
+- 修复带评论的文章侧边栏掉到底部：自定义评论回调阻止 Walker_Comment 输出多余的闭合 div
+- 修复头像变形；评论表单回复标题不再 h3 嵌套 h5；div 风格评论的嵌套回复增加缩进
+
+### 1.4.3
+
+- 块编辑器添加的侧边栏小工具标题统一为主题标题样式
+- 摘要去除行首 Markdown 符号（`##`、`>`）
+
+### 1.4.2
+
+- 主题 CSS/JS 以文件修改时间作为版本号，更新后缓存立即失效
+- 不再单独提供覆盖包，统一使用 `zheshe.zip`
+
+### 1.4.1
+
+- 官方小工具（近期文章、分类、搜索、标签云、RSS、Meta）统一为主题卡片风格
 
 ### 1.4.0
 
@@ -74,10 +120,17 @@
 3. （可选）后台 → 外观 → 菜单，设置「主菜单」和「页脚菜单」；
 4. （可选）文章 → 分类 → 编辑分类，为分类选择一个图标。
 
-> **升级提示**：WordPress 后台「上传主题」只会全新安装、不会覆盖已有目录。
-> 升级方式：下载 Release 里的 `zheshe.zip`，本地解压后把文件通过 FTP 覆盖到
-> `wp-content/themes/zheshe/`，主题 slug 不变，Customizer 设置、菜单和小工具都会保留。
-> 主题 CSS/JS 的链接自带文件时间戳版本号，覆盖后 Cloudflare/浏览器缓存会自动失效。
+启用后侧边栏默认为空，主题不会替你添加小工具：到「外观 → 小工具 → 博客侧边栏」自行添加；
+全新站点也可以在「外观 → 自定义」中预览并发布主题提供的默认布局（starter content）。
+
+## 打包
+
+```sh
+sh bin/build-zip.sh
+```
+
+在仓库根目录生成 `zheshe.zip`（顶层目录为 `zheshe/`），已排除 `.git/`、`bin/`、隐藏文件、
+`node_modules/`、`*.zip`、`*.log` 等开发文件，可直接用于后台上传或提交到 WordPress.org。
 
 ## 目录结构
 
@@ -93,9 +146,12 @@ zheshe/
 │   ├── vendor/                # 内置 Bootstrap 5 + Bootstrap Icons（无需 CDN）
 │   │   ├── bootstrap/{css,js}
 │   │   └── bootstrap-icons/
+├── bin/
+│   └── build-zip.sh           # 打包脚本（不进入 zheshe.zip）
 ├── languages/                 # 语言包（zh_CN）
 ├── template-parts/
 │   ├── hero.php               # 首页 Hero 区
+│   ├── post-list.php          # 文章列表（index.php / front-page.php 共用）
 │   └── content-card.php       # 文章卡片（列表/网格通用）
 ├── theme.json                 # 编辑器全局样式配置
 ├── 404.php

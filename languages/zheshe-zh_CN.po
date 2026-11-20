@@ -2,10 +2,10 @@
 # Copyright (C) 2026 eRui.org
 msgid ""
 msgstr ""
-"Project-Id-Version: Zheshe 1.4.0\n"
+"Project-Id-Version: Zheshe 1.4.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-30 11:00+0800\n"
-"PO-Revision-Date: 2026-10-30 11:00+0800\n"
+"POT-Creation-Date: 2026-11-20 20:48+0800\n"
+"PO-Revision-Date: 2026-11-20 20:48+0800\n"
 "Last-Translator: \n"
 "Language-Team: Chinese (China)\n"
 "Language: zh_CN\n"
@@ -186,6 +186,9 @@ msgstr "文章分页导航"
 msgid "Posts sorted by theme view count."
 msgstr "按主题浏览量排序的文章。"
 
+msgid "Powered by WordPress"
+msgstr "由 WordPress 驱动"
+
 msgid "Previous"
 msgstr "上一篇"
 
@@ -207,12 +210,22 @@ msgstr "RSS 订阅"
 msgid "Reply"
 msgstr "回复"
 
+#, php-format
 msgid "Reply to %s"
 msgstr "回复 %s"
+
+msgctxt "submit button"
+msgid "Search"
+msgstr "搜索"
 
 msgid "Search Results"
 msgstr "搜索结果"
 
+msgctxt "label"
+msgid "Search for:"
+msgstr "搜索："
+
+msgctxt "placeholder"
 msgid "Search posts..."
 msgstr "搜索文章..."
 
@@ -257,6 +270,9 @@ msgstr "十年之约|https://www.foreverblog.cn/|bi-hourglass-split"
 
 msgid "The page you are looking for does not exist or has been removed."
 msgstr "你访问的页面不存在或已被移除。"
+
+msgid "Theme Designed by"
+msgstr "主题设计："
 
 msgid "Title"
 msgstr "标题"

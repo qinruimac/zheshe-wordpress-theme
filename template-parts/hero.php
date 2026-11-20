@@ -18,7 +18,7 @@ $hero_class = ('dark' === $hero_style) ? 'blog-hero blog-hero-dark' : 'blog-hero
       <a href="#latest-posts" class="btn btn-light"><?php _e('Start Reading', 'zheshe'); ?> <i class="bi bi-arrow-right"></i></a>
     </div>
     <div class="col-lg-4 d-none d-lg-block text-center">
-      <i class="bi bi-journal-text" style="font-size: 5rem;"></i>
+      <i class="bi bi-journal-text zheshe-hero-icon"></i>
     </div>
   </div>
 </div>

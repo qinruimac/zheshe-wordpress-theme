@@ -39,7 +39,7 @@ get_header();
       <?php zheshe_pagination(); ?>
     <?php else : ?>
       <div class="text-center py-5">
-        <i class="bi bi-inbox text-muted" style="font-size:3rem;"></i>
+        <i class="bi bi-inbox text-muted zheshe-empty-icon"></i>
         <h4 class="mt-3 text-muted"><?php _e('No posts yet', 'zheshe'); ?></h4>
       </div>
     <?php endif; ?>
