@@ -2,12 +2,12 @@
 
 Contributors: qinruimac
 Requires at least: 6.0
-Tested up to: 7.1.3
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.5
+Stable tag: 1.4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, two-columns, right-sidebar, custom-colors, custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, sticky-post, responsive-layout
+Tags: blog, two-columns, right-sidebar, custom-colors, custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, sticky-post
 
 == Description ==
 
@@ -27,7 +27,7 @@ Features:
 * Customizer panel for the home page Hero (title, subtitle and style) with live preview
 * Bootstrap 5 and Bootstrap Icons bundled locally — no CDN dependency
 * Accessibility: skip link, main landmark, ARIA labels on navigation
-* Translation ready, includes a complete Simplified Chinese language pack (121 strings)
+* Translation ready, includes a complete Simplified Chinese language pack
 
 == Installation ==
 
@@ -37,11 +37,9 @@ Features:
 4. (Optional) Go to Appearance → Customize → Home Hero to set the headline and subtitle.
 5. (Optional) Go to Appearance → Menus to assign the Primary and Footer menus.
 6. (Optional) Go to Posts → Categories → Edit to pick an icon for each category.
-
-Upgrading: WordPress cannot overwrite a theme by uploading a ZIP. To upgrade, download
-`zheshe.zip` from the release, extract it locally, and upload the files over
-`wp-content/themes/zheshe/` via FTP. The theme slug stays the same, so your Customizer
-settings, menus and widgets are preserved.
+7. (Optional) Go to Appearance → Widgets → Blog Sidebar to add widgets. On a brand-new site,
+   Appearance → Customize offers the default Zheshe sidebar (Search, Categories, Tag Cloud,
+   Popular Posts, Subscribe) as starter content; it is only applied when you publish it.
 
 == Frequently Asked Questions ==
 
@@ -58,7 +56,18 @@ mixed-language posts get a sensible estimate.
 = Do I need a plugin for the subscription form? =
 
 No, but the theme integrates with Jetpack or Mailchimp if either is active. Without them the
-sidebar simply shows a search box instead.
+"Zheshe: Subscribe" widget renders nothing.
+
+= Why is the sidebar empty after activating the theme? =
+
+Zheshe does not create widgets on your behalf. Add widgets in Appearance → Widgets → Blog
+Sidebar, or—on a brand-new site—publish the starter content offered in Appearance → Customize.
+
+= How many posts does the home page show? =
+
+As many as "Settings → Reading → Blog pages show at most". The first post on the first page is
+displayed as a large featured card. With a static front page, the page content is shown first,
+followed by the latest posts.
 
 = Is Bootstrap loaded from a CDN? =
 
@@ -72,6 +81,32 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 3. Category archive with the sidebar
 
 == Changelog ==
+
+= 1.4.6 =
+* The theme no longer writes widgets on activation or on every admin page load: the automatic
+  sidebar seeding (and its `zheshe_sidebar_seeded` option) was removed. The default sidebar
+  layout is now offered as starter content, applied only when the user publishes it in the Customizer
+* The legacy `post_views` migration no longer runs on `admin_init`; it runs only when a user who can
+  switch themes activates Zheshe (no more `zheshe_views_migrated` flag). Single posts are still
+  migrated lazily when their view count is read
+* The home page uses the main loop: posts per page follow Settings → Reading, sticky posts are
+  handled by WordPress (marked with `.sticky`, never duplicated), pagination uses the main query
+* `index.php` and `front-page.php` share the new `template-parts/post-list.php`; on a static front
+  page the page content is shown first, then the latest posts
+* The category icon preview script is enqueued with `wp_add_inline_script()` (it was previously
+  printed on a hook that never matched the category screen, so the preview did not update)
+* Inline `style` attributes in templates replaced with CSS classes (`.zheshe-hero-icon`,
+  `.zheshe-empty-icon`); comment avatar size passed via the `--zheshe-avatar-size` CSS variable
+* "Zheshe: Search" widget now renders through `searchform.php` / `get_search_form()`, with a
+  visually hidden label; search field IDs are unique per page
+* Footer credit strings are translatable
+* Asset versions fall back to the theme version when `filemtime()` fails (read-only file systems)
+* theme.json: added a font family preset and disabled the core default palette so the theme
+  palette is used in the editor
+* Metadata: "Tested up to" uses the major version format (7.1; tested on WordPress 7.1.5),
+  removed the deprecated `responsive-layout` tag, language pack re-extracted and its header updated
+* readme.txt: added Copyright, Resources and expanded Credits; removed the outdated manual
+  upgrade instructions
 
 = 1.4.5 =
 * Comment avatars now use a fixed-size wrapper with explicit width/height, so they stay
@@ -139,13 +174,93 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 
 == Upgrade Notice ==
 
+= 1.4.6 =
+WordPress.org compliance release. Your existing widgets, menus and Customizer settings are kept;
+the theme simply no longer adds widgets by itself. The home page now shows as many posts as
+Settings → Reading specifies (previously fixed at 7).
+
 = 1.2.0 =
 Renamed to Zheshe. Existing Customizer Hero settings and post view counts are migrated
 automatically; nothing is lost. Because the theme slug changed, please activate Zheshe once
 from Appearance → Themes after upgrading.
 
+== Copyright ==
+
+Zheshe WordPress Theme, Copyright 2026 eRui.org
+Zheshe is distributed under the terms of the GNU GPL.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+The full license text is in the LICENSE file shipped with the theme.
+
+Zheshe bundles the following third-party resources:
+
+Bootstrap v5.3.2, Copyright 2011-2023 The Bootstrap Authors
+License: MIT
+Source: https://github.com/twbs/bootstrap/blob/v5.3.2/LICENSE
+
+Bootstrap Icons v1.11.1, Copyright 2019-2023 The Bootstrap Authors
+License: MIT
+Source: https://github.com/twbs/icons/blob/v1.11.1/LICENSE
+The icon font files (bootstrap-icons.woff2, bootstrap-icons.woff) are taken unchanged from the
+official Bootstrap Icons 1.11.1 release: not subset or otherwise modified.
+
+MIT License text (applies to Bootstrap and Bootstrap Icons):
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+== Resources ==
+
+All files in `assets/vendor/` are the official distribution files of the versions listed below.
+They are not modified, re-minified or obfuscated; the original copyright headers are kept, and the
+version numbers match the upstream releases.
+
+* assets/vendor/bootstrap/css/bootstrap.min.css
+  Bootstrap v5.3.2 (dist/css/bootstrap.min.css), MIT License, https://getbootstrap.com/
+  Unminified source: https://github.com/twbs/bootstrap/tree/v5.3.2/scss
+* assets/vendor/bootstrap/js/bootstrap.bundle.min.js
+  Bootstrap v5.3.2 (dist/js/bootstrap.bundle.min.js, includes Popper), MIT License, https://getbootstrap.com/
+  Unminified source: https://github.com/twbs/bootstrap/tree/v5.3.2/js
+* assets/vendor/bootstrap-icons/bootstrap-icons.min.css
+  Bootstrap Icons v1.11.1 (font/bootstrap-icons.min.css), MIT License, https://icons.getbootstrap.com/
+  Unminified source: https://github.com/twbs/icons/blob/v1.11.1/font/bootstrap-icons.css
+* assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff2
+* assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff
+  Bootstrap Icons v1.11.1 (font/fonts/), MIT License, https://icons.getbootstrap.com/
+
+All other files (PHP templates, assets/css, assets/js, theme.json, languages) are original work of
+the theme author, licensed under GPLv2 or later.
+
 == Credits ==
 
-* Bootstrap 5.3.2 — https://getbootstrap.com/ — MIT License
-* Bootstrap Icons 1.11.1 — https://icons.getbootstrap.com/ — MIT License
+* Theme author: eRui.org (https://eRui.org)
+* Bootstrap 5.3.2 — https://getbootstrap.com/ — MIT License (see Copyright and Resources)
+* Bootstrap Icons 1.11.1 — https://icons.getbootstrap.com/ — MIT License (see Copyright and Resources)
+* screenshot.png — self-made by the theme author from a fresh WordPress install with WordPress's
+  default sample content ("Hello world!"). Icons in it are Bootstrap Icons (MIT); the small avatar
+  is the Gravatar of the test administrator account.
 * Bundled under GPLv2 or later, consistent with WordPress licensing.

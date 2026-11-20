@@ -50,6 +50,20 @@ function zheshe_setup() {
         'primary' => __('Primary Menu', 'zheshe'),
         'footer' => __('Footer Menu', 'zheshe'),
     ));
+
+    // 默认侧边栏布局只作为 starter content 提供：仅在全新站点、用户于 Customizer 中主动发布时才写入。
+    // 自定义小工具须写成 array(id_base, instance)；纯字符串只对 Core 预置项（如 'search'）有效，会被静默忽略。
+    add_theme_support('starter-content', array(
+        'widgets' => array(
+            'sidebar-1' => array(
+                array('zheshe_search', array('title' => '')),
+                array('zheshe_categories', array('title' => __('Categories', 'zheshe'), 'number' => 10)),
+                array('zheshe_tags', array('title' => __('Popular Tags', 'zheshe'), 'number' => 15)),
+                array('zheshe_popular_posts', array('title' => __('Popular Posts', 'zheshe'), 'number' => 3)),
+                array('zheshe_subscribe', array()),
+            ),
+        ),
+    ));
 }
 
 add_action('after_setup_theme', 'zheshe_setup');
@@ -92,7 +106,9 @@ function zheshe_asset_url($vendor_path, $cdn_url) {
  */
 function zheshe_asset_ver($rel_path) {
     $file = get_template_directory() . '/' . ltrim($rel_path, '/');
-    return file_exists($file) ? (string) filemtime($file) : wp_get_theme()->get('Version');
+    // 只读文件系统 / 容器镜像上 filemtime() 可能因权限返回 false，此时回退到主题版本号
+    $mtime = file_exists($file) ? filemtime($file) : false;
+    return $mtime ? (string) $mtime : wp_get_theme()->get('Version');
 }
 
 function zheshe_scripts() {
@@ -253,14 +269,10 @@ class Zheshe_Search_Widget extends WP_Widget {
             array('description' => __('Site search box with the theme card style.', 'zheshe')));
     }
     public function widget($args, $instance) {
-        echo $args['before_widget']; ?>
-        <form role="search" method="get" class="blog-search-form" action="<?php echo esc_url(home_url('/')); ?>">
-          <div class="input-group">
-            <input type="search" class="form-control" placeholder="<?php esc_attr_e('Search posts...', 'zheshe'); ?>" value="<?php echo get_search_query(); ?>" name="s">
-            <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
-          </div>
-        </form>
-        <?php echo $args['after_widget'];
+        echo $args['before_widget'];
+        // 走 searchform.php（可被 get_search_form 过滤），compact 模式只显示图标按钮
+        get_search_form(array('zheshe_compact' => true));
+        echo $args['after_widget'];
     }
     public function form($instance) {
         $title = isset($instance['title']) ? $instance['title'] : '';
@@ -424,50 +436,15 @@ class Zheshe_Subscribe_Widget extends WP_Widget {
 }
 
 /**
- * 主题启用时，把默认侧边栏布局（搜索/分类/标签/热门文章/订阅）种入 sidebar-1。
- * 仅当侧边栏为空且尚未种过时执行，不影响用户已有的小工具配置。
+ * 静态首页的文章列表是单独查询，此时 is_home() 为假，post_class() 不会自动给置顶文章加 .sticky；
+ * template-parts/post-list.php 在第一页循环期间挂上本过滤器，与 Core 在博客首页的行为保持一致。
  */
-function zheshe_seed_default_sidebar() {
-    if (is_active_sidebar('sidebar-1')) {
-        update_option('zheshe_sidebar_seeded', 1);
-        return;
+function zheshe_front_list_sticky_class($classes, $class, $post_id) {
+    if (is_sticky($post_id) && !in_array('sticky', $classes, true)) {
+        $classes[] = 'sticky';
     }
-    if (get_option('zheshe_sidebar_seeded')) {
-        return;
-    }
-    $sidebars = wp_get_sidebars_widgets();
-    $sidebars['sidebar-1'] = array(
-        'zheshe_search-1',
-        'zheshe_categories-1',
-        'zheshe_tags-1',
-        'zheshe_popular_posts-1',
-        'zheshe_subscribe-1',
-    );
-    wp_set_sidebars_widgets($sidebars);
-
-    $defaults = array(
-        'zheshe_search'         => array(1 => array('title' => ''), '_multiwidget' => 1),
-        'zheshe_categories'     => array(1 => array('title' => __('Categories', 'zheshe'), 'number' => 10), '_multiwidget' => 1),
-        'zheshe_tags'           => array(1 => array('title' => __('Popular Tags', 'zheshe'), 'number' => 15), '_multiwidget' => 1),
-        'zheshe_popular_posts'  => array(1 => array('title' => __('Popular Posts', 'zheshe'), 'number' => 3), '_multiwidget' => 1),
-        'zheshe_subscribe'      => array(1 => array('title' => ''), '_multiwidget' => 1),
-    );
-    foreach ($defaults as $option => $value) {
-        if (false === get_option($option)) {
-            update_option($option, $value);
-        }
-    }
-    update_option('zheshe_sidebar_seeded', 1);
+    return $classes;
 }
-add_action('after_switch_theme', 'zheshe_seed_default_sidebar');
-
-/** 兜底：FTP 覆盖升级不会触发 after_switch_theme，进后台时补种一次 */
-function zheshe_seed_default_sidebar_on_admin() {
-    if (!get_option('zheshe_sidebar_seeded')) {
-        zheshe_seed_default_sidebar();
-    }
-}
-add_action('admin_init', 'zheshe_seed_default_sidebar_on_admin');
 
 function zheshe_excerpt_length($length) {
     return 30;
@@ -548,10 +525,13 @@ function zheshe_format_views($views) {
 }
 
 /**
- * 启用主题时，把 1.1.0 及更早版本遗留的 post_views 元数据批量迁移到 zheshe_post_views
+ * 用户启用主题时，把 1.1.0 及更早版本遗留的 post_views 元数据批量迁移到 zheshe_post_views
  * （单篇文章的惰性迁移见 zheshe_get_views()，此处保证侧边栏「热门文章」排序立即正确）
  */
 function zheshe_migrate_legacy_post_views() {
+    if (!current_user_can('switch_themes')) {
+        return;
+    }
     global $wpdb;
     $rows = $wpdb->get_results(
         $wpdb->prepare("SELECT post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s", 'post_views')
@@ -560,27 +540,18 @@ function zheshe_migrate_legacy_post_views() {
         return;
     }
     foreach ($rows as $row) {
-        $current = get_post_meta($row->post_id, 'zheshe_post_views', true);
-        if ('' === $current || false === $current) {
-            update_post_meta($row->post_id, 'zheshe_post_views', (int) $row->meta_value);
+        $post_id = absint($row->post_id);
+        if (!$post_id) {
+            continue;
         }
-        delete_post_meta($row->post_id, 'post_views');
+        $current = get_post_meta($post_id, 'zheshe_post_views', true);
+        if ('' === $current || false === $current) {
+            update_post_meta($post_id, 'zheshe_post_views', (int) $row->meta_value);
+        }
+        delete_post_meta($post_id, 'post_views');
     }
 }
 add_action('after_switch_theme', 'zheshe_migrate_legacy_post_views');
-
-/**
- * 兜底：直接覆盖文件升级时不会触发 after_switch_theme，
- * 因此在后台再跑一次，用 transient 标记只执行一次
- */
-function zheshe_maybe_migrate_views_on_admin() {
-    if (get_transient('zheshe_views_migrated')) {
-        return;
-    }
-    zheshe_migrate_legacy_post_views();
-    set_transient('zheshe_views_migrated', 1, 0);
-}
-add_action('admin_init', 'zheshe_maybe_migrate_views_on_admin');
 
 /**
  * 读取 Hero 设置，并自动迁移 1.1.0 及更早版本使用的旧键 blog_hero_*
@@ -729,6 +700,28 @@ function zheshe_admin_category_icon_assets($hook) {
         array(),
         '1.11.1'
     );
+    wp_add_inline_style('bootstrap-icons', '#zheshe-category-icon-preview{font-size:1.25rem;vertical-align:middle;}');
+
+    // 下拉框切换时同步预览图标；脚本没有独立文件，挂在一个空 src 句柄上输出
+    wp_register_script('zheshe-admin-category-icon', '', array(), null, true);
+    wp_enqueue_script('zheshe-admin-category-icon');
+    $js = sprintf(
+        '(function () {
+    var select = document.getElementById(%1$s);
+    var preview = document.getElementById(%2$s);
+    if (!select || !preview) return;
+    function update() {
+        preview.className = %3$s + (select.value || %4$s);
+    }
+    select.addEventListener("change", update);
+    update();
+})();',
+        wp_json_encode('zheshe-category-icon'),
+        wp_json_encode('zheshe-category-icon-preview'),
+        wp_json_encode('bi '),
+        wp_json_encode('bi-journal-text')
+    );
+    wp_add_inline_script('zheshe-admin-category-icon', $js);
 }
 add_action('admin_enqueue_scripts', 'zheshe_admin_category_icon_assets');
 
@@ -744,7 +737,7 @@ function zheshe_category_icon_add_field() {
             <?php endforeach; ?>
         </select>
         <p class="description">
-            <i id="zheshe-category-icon-preview" class="bi bi-journal-text" style="font-size:1.25rem;vertical-align:middle;"></i>
+            <i id="zheshe-category-icon-preview" class="bi bi-journal-text"></i>
             <?php _e('Displayed beside the category name in the sidebar.', 'zheshe'); ?>
         </p>
     </div>
@@ -767,7 +760,7 @@ function zheshe_category_icon_edit_field($term) {
                 <?php endforeach; ?>
             </select>
             <p class="description">
-                <i id="zheshe-category-icon-preview" class="bi <?php echo esc_attr($current ? $current : 'bi-journal-text'); ?>" style="font-size:1.25rem;vertical-align:middle;"></i>
+                <i id="zheshe-category-icon-preview" class="bi <?php echo esc_attr($current ? $current : 'bi-journal-text'); ?>"></i>
                 <?php _e('Displayed beside the category name in the sidebar.', 'zheshe'); ?>
             </p>
         </td>
@@ -788,25 +781,6 @@ function zheshe_save_category_icon($term_id) {
 }
 add_action('created_category', 'zheshe_save_category_icon');
 add_action('edited_category', 'zheshe_save_category_icon');
-
-function zheshe_category_icon_preview_script($hook) {
-    if (!zheshe_is_category_admin_page($hook)) return;
-    ?>
-    <script>
-    (function () {
-        var select = document.getElementById('zheshe-category-icon');
-        var preview = document.getElementById('zheshe-category-icon-preview');
-        if (!select || !preview) return;
-        function update() {
-            preview.className = 'bi ' + (select.value || 'bi-journal-text');
-        }
-        select.addEventListener('change', update);
-        update();
-    })();
-    </script>
-    <?php
-}
-add_action('admin_print_footer_scripts', 'zheshe_category_icon_preview_script');
 
 function zheshe_has_subscription_plugin() {
     if (class_exists('Jetpack') && method_exists('Jetpack', 'is_module_active') && Jetpack::is_module_active('subscriptions')) {
@@ -986,7 +960,7 @@ function zheshe_comment_callback($comment, $args, $depth) {
         <div class="d-flex gap-3">
           <?php if (0 !== $args['avatar_size']) :
             $avatar_size = (int) $args['avatar_size']; ?>
-            <div class="comment-avatar flex-shrink-0" style="width:<?php echo esc_attr($avatar_size); ?>px;height:<?php echo esc_attr($avatar_size); ?>px;">
+            <div class="comment-avatar flex-shrink-0" style="--zheshe-avatar-size:<?php echo esc_attr($avatar_size); ?>px;">
               <?php echo get_avatar($comment, $avatar_size, '', '', array('class' => 'rounded-circle')); ?>
             </div>
           <?php endif; ?>
