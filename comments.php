@@ -2,13 +2,13 @@
 if (!defined('ABSPATH')) exit;
 
 if (post_password_required()) {
-  echo '<p class="text-center text-muted py-4">' . __('Enter password to view comments.', 'zheshe') . '</p>';
+  echo '<p class="text-center text-muted py-4">' . esc_html__('Enter password to view comments.', 'zheshe') . '</p>';
   return;
 }
 ?>
 
 <div id="comments" class="comments-area">
-  <h4 class="mb-3"><i class="bi bi-chat-dots me-2"></i><?php _e('Comments', 'zheshe'); ?> (<?php echo get_comments_number(); ?>)</h4>
+  <h4 class="mb-3"><i class="bi bi-chat-dots me-2"></i><?php esc_html_e('Comments', 'zheshe'); ?> (<?php echo esc_html(get_comments_number()); ?>)</h4>
 
   <?php if (have_comments()) : ?>
     <div class="comment-list">
@@ -32,7 +32,7 @@ if (post_password_required()) {
     )); ?>
 
   <?php else : ?>
-    <p class="text-muted"><?php _e('No comments yet. Be the first!', 'zheshe'); ?></p>
+    <p class="text-muted"><?php esc_html_e('No comments yet. Be the first!', 'zheshe'); ?></p>
   <?php endif; ?>
 
   <?php

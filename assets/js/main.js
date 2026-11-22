@@ -14,20 +14,5 @@
         }
       });
     });
-
-    var subscribeForms = document.querySelectorAll('.subscribe-form');
-    subscribeForms.forEach(function (form) {
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var emailInput = form.querySelector('input[type="email"]');
-        if (emailInput && emailInput.value.trim()) {
-          var btn = form.querySelector('button[type="submit"]');
-          if (btn) {
-            btn.textContent = '已订阅!';
-            btn.disabled = true;
-          }
-        }
-      });
-    });
   });
 })();

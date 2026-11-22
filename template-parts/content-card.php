@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) exit;
     </h6>
     <p class="card-text small text-muted"><?php echo esc_html(get_the_excerpt()); ?></p>
     <small class="text-muted">
-      <?php echo get_the_date(); ?> · <i class="bi bi-eye"></i> <?php echo esc_html(zheshe_post_views()); ?>
+      <?php echo esc_html(get_the_date()); ?> · <i class="bi bi-eye"></i> <?php echo esc_html(zheshe_post_views()); ?>
     </small>
   </div>
 </article>

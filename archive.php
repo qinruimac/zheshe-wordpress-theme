@@ -6,22 +6,22 @@ get_header();
 
 <div class="single-post-header">
   <?php if (is_category()) : ?>
-    <h1><i class="bi bi-folder me-2"></i><?php _e('Category:', 'zheshe'); ?> <?php single_cat_title(); ?></h1>
+    <h1><i class="bi bi-folder me-2"></i><?php esc_html_e('Category:', 'zheshe'); ?> <?php echo esc_html(single_cat_title('', false)); ?></h1>
   <?php elseif (is_tag()) : ?>
-    <h1><i class="bi bi-hash me-2"></i><?php _e('Tag:', 'zheshe'); ?> <?php single_tag_title(); ?></h1>
+    <h1><i class="bi bi-hash me-2"></i><?php esc_html_e('Tag:', 'zheshe'); ?> <?php echo esc_html(single_tag_title('', false)); ?></h1>
   <?php elseif (is_author()) : ?>
-    <h1><i class="bi bi-person me-2"></i><?php _e('Author:', 'zheshe'); ?> <?php the_author(); ?></h1>
+    <h1><i class="bi bi-person me-2"></i><?php esc_html_e('Author:', 'zheshe'); ?> <?php echo esc_html(get_the_author()); ?></h1>
   <?php elseif (is_day()) : ?>
-    <h1><i class="bi bi-calendar me-2"></i><?php _e('Daily Archive:', 'zheshe'); ?> <?php echo get_the_date(); ?></h1>
+    <h1><i class="bi bi-calendar me-2"></i><?php esc_html_e('Daily Archive:', 'zheshe'); ?> <?php echo esc_html(get_the_date()); ?></h1>
   <?php elseif (is_month()) : ?>
-    <h1><i class="bi bi-calendar me-2"></i><?php _e('Monthly Archive:', 'zheshe'); ?> <?php echo get_the_date('F Y'); ?></h1>
+    <h1><i class="bi bi-calendar me-2"></i><?php esc_html_e('Monthly Archive:', 'zheshe'); ?> <?php echo esc_html(get_the_date('F Y')); ?></h1>
   <?php elseif (is_year()) : ?>
-    <h1><i class="bi bi-calendar me-2"></i><?php _e('Yearly Archive:', 'zheshe'); ?> <?php echo get_the_date('Y'); ?></h1>
+    <h1><i class="bi bi-calendar me-2"></i><?php esc_html_e('Yearly Archive:', 'zheshe'); ?> <?php echo esc_html(get_the_date('Y')); ?></h1>
   <?php else : ?>
-    <h1><i class="bi bi-archive me-2"></i><?php _e('Archive', 'zheshe'); ?></h1>
+    <h1><i class="bi bi-archive me-2"></i><?php esc_html_e('Archive', 'zheshe'); ?></h1>
   <?php endif; ?>
   <?php if (is_category() && category_description()) : ?>
-    <p class="lead mt-2"><?php echo category_description(); ?></p>
+    <p class="lead mt-2"><?php echo wp_kses_post(category_description()); ?></p>
   <?php endif; ?>
 </div>
 
@@ -40,7 +40,7 @@ get_header();
     <?php else : ?>
       <div class="text-center py-5">
         <i class="bi bi-inbox text-muted zheshe-empty-icon"></i>
-        <h4 class="mt-3 text-muted"><?php _e('No posts yet', 'zheshe'); ?></h4>
+        <h4 class="mt-3 text-muted"><?php esc_html_e('No posts yet', 'zheshe'); ?></h4>
       </div>
     <?php endif; ?>
   </div>

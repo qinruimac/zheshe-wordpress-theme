@@ -9,7 +9,7 @@ get_header();
 <!-- 页面头部 -->
 <div class="single-post-header">
   <h1><?php the_title(); ?></h1>
-  <small class="opacity-75"><?php echo get_the_date(); ?></small>
+  <small class="opacity-75"><?php echo esc_html(get_the_date()); ?></small>
 </div>
 
 <div class="row">

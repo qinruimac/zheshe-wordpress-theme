@@ -19,7 +19,7 @@ $zheshe_field_id = wp_unique_id('zheshe-search-field-');
   <div class="input-group">
     <input type="search" id="<?php echo esc_attr($zheshe_field_id); ?>" class="<?php echo $zheshe_compact ? 'form-control' : 'form-control search-field'; ?>"
            placeholder="<?php echo esc_attr_x('Search posts...', 'placeholder', 'zheshe'); ?>"
-           value="<?php echo get_search_query(); ?>" name="s">
+           value="<?php echo esc_attr(get_search_query()); ?>" name="s">
     <?php if ($zheshe_compact) : ?>
       <button class="btn btn-primary" type="submit">
         <i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden"><?php echo esc_html_x('Search', 'submit button', 'zheshe'); ?></span>

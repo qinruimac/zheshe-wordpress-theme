@@ -26,6 +26,9 @@ function zheshe_setup() {
     add_theme_support('editor-styles');
     add_theme_support('wp-block-styles');
     add_theme_support('align-wide');
+    add_theme_support('custom-background', array(
+        'default-color' => 'f8f9fa',
+    ));
     add_theme_support('post-thumbnails');
 
     // 编辑器配色，与 .blog-hero / 主题主色保持一致
@@ -220,23 +223,23 @@ class Zheshe_Links_Widget extends WP_Widget {
         $newtab = !empty($instance['newtab']);
         ?>
         <p>
-          <label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title', 'zheshe'); ?></label>
+          <label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title', 'zheshe'); ?></label>
           <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>"
                  name="<?php echo esc_attr($this->get_field_name('title')); ?>"
                  type="text" value="<?php echo esc_attr($title); ?>">
         </p>
         <p>
-          <label for="<?php echo esc_attr($this->get_field_id('links')); ?>"><?php _e('Button list', 'zheshe'); ?></label>
+          <label for="<?php echo esc_attr($this->get_field_id('links')); ?>"><?php esc_html_e('Button list', 'zheshe'); ?></label>
           <textarea class="widefat" rows="6" id="<?php echo esc_attr($this->get_field_id('links')); ?>"
                     name="<?php echo esc_attr($this->get_field_name('links')); ?>"><?php echo esc_textarea($links); ?></textarea>
           <small class="description">
-            <?php _e('One per line: Name|URL|Icon. The icon is an optional Bootstrap Icons class (default bi-link-45deg).', 'zheshe'); ?>
+            <?php esc_html_e('One per line: Name|URL|Icon. The icon is an optional Bootstrap Icons class (default bi-link-45deg).', 'zheshe'); ?>
           </small>
         </p>
         <p>
           <input type="checkbox" <?php checked($newtab); ?> id="<?php echo esc_attr($this->get_field_id('newtab')); ?>"
                  name="<?php echo esc_attr($this->get_field_name('newtab')); ?>">
-          <label for="<?php echo esc_attr($this->get_field_id('newtab')); ?>"><?php _e('Open in new tab', 'zheshe'); ?></label>
+          <label for="<?php echo esc_attr($this->get_field_id('newtab')); ?>"><?php esc_html_e('Open in new tab', 'zheshe'); ?></label>
         </p>
         <?php
     }
@@ -277,10 +280,10 @@ class Zheshe_Search_Widget extends WP_Widget {
     public function form($instance) {
         $title = isset($instance['title']) ? $instance['title'] : '';
         ?>
-        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title', 'zheshe'); ?></label>
+        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title', 'zheshe'); ?></label>
         <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>"
                name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>">
-        <small class="description"><?php _e('Leave empty to hide the title.', 'zheshe'); ?></small></p>
+        <small class="description"><?php esc_html_e('Leave empty to hide the title.', 'zheshe'); ?></small></p>
         <?php
     }
     public function update($new, $old) { return array('title' => sanitize_text_field(isset($new['title']) ? $new['title'] : '')); }
@@ -313,10 +316,10 @@ class Zheshe_Categories_Widget extends WP_Widget {
     public function form($instance) {
         $title  = isset($instance['title']) ? $instance['title'] : __('Categories', 'zheshe');
         $number = isset($instance['number']) ? (int) $instance['number'] : 10; ?>
-        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title', 'zheshe'); ?></label>
+        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title', 'zheshe'); ?></label>
         <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>"
                name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>"></p>
-        <p><label for="<?php echo esc_attr($this->get_field_id('number')); ?>"><?php _e('Number of categories', 'zheshe'); ?></label>
+        <p><label for="<?php echo esc_attr($this->get_field_id('number')); ?>"><?php esc_html_e('Number of categories', 'zheshe'); ?></label>
         <input class="tiny-text" id="<?php echo esc_attr($this->get_field_id('number')); ?>"
                name="<?php echo esc_attr($this->get_field_name('number')); ?>" type="number" min="1" max="50"
                value="<?php echo esc_attr($number); ?>"></p>
@@ -355,10 +358,10 @@ class Zheshe_Tags_Widget extends WP_Widget {
     public function form($instance) {
         $title  = isset($instance['title']) ? $instance['title'] : __('Popular Tags', 'zheshe');
         $number = isset($instance['number']) ? (int) $instance['number'] : 15; ?>
-        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title', 'zheshe'); ?></label>
+        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title', 'zheshe'); ?></label>
         <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>"
                name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>"></p>
-        <p><label for="<?php echo esc_attr($this->get_field_id('number')); ?>"><?php _e('Number of tags', 'zheshe'); ?></label>
+        <p><label for="<?php echo esc_attr($this->get_field_id('number')); ?>"><?php esc_html_e('Number of tags', 'zheshe'); ?></label>
         <input class="tiny-text" id="<?php echo esc_attr($this->get_field_id('number')); ?>"
                name="<?php echo esc_attr($this->get_field_name('number')); ?>" type="number" min="1" max="50"
                value="<?php echo esc_attr($number); ?>"></p>
@@ -392,7 +395,7 @@ class Zheshe_Popular_Posts_Widget extends WP_Widget {
             <div>
               <a href="<?php the_permalink(); ?>" class="text-decoration-none small fw-bold"><?php the_title(); ?></a>
               <br>
-              <small class="text-muted"><?php _e('Views', 'zheshe'); ?> <?php echo esc_html(zheshe_post_views()); ?></small>
+              <small class="text-muted"><?php esc_html_e('Views', 'zheshe'); ?> <?php echo esc_html(zheshe_post_views()); ?></small>
             </div>
           </div>
         <?php endwhile; wp_reset_postdata();
@@ -401,10 +404,10 @@ class Zheshe_Popular_Posts_Widget extends WP_Widget {
     public function form($instance) {
         $title  = isset($instance['title']) ? $instance['title'] : __('Popular Posts', 'zheshe');
         $number = isset($instance['number']) ? (int) $instance['number'] : 3; ?>
-        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php _e('Title', 'zheshe'); ?></label>
+        <p><label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title', 'zheshe'); ?></label>
         <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>"
                name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>"></p>
-        <p><label for="<?php echo esc_attr($this->get_field_id('number')); ?>"><?php _e('Number of posts', 'zheshe'); ?></label>
+        <p><label for="<?php echo esc_attr($this->get_field_id('number')); ?>"><?php esc_html_e('Number of posts', 'zheshe'); ?></label>
         <input class="tiny-text" id="<?php echo esc_attr($this->get_field_id('number')); ?>"
                name="<?php echo esc_attr($this->get_field_name('number')); ?>" type="number" min="1" max="10"
                value="<?php echo esc_attr($number); ?>"></p>
@@ -729,16 +732,16 @@ function zheshe_category_icon_add_field() {
     wp_nonce_field('zheshe_category_icon_save', 'zheshe_category_icon_nonce');
     ?>
     <div class="form-field">
-        <label for="zheshe-category-icon"><?php _e('Category icon', 'zheshe'); ?></label>
+        <label for="zheshe-category-icon"><?php esc_html_e('Category icon', 'zheshe'); ?></label>
         <select id="zheshe-category-icon" name="zheshe_category_icon" class="postform">
-            <option value=""><?php _e('Auto (default)', 'zheshe'); ?></option>
+            <option value=""><?php esc_html_e('Auto (default)', 'zheshe'); ?></option>
             <?php foreach (zheshe_category_icon_choices() as $class => $label) : ?>
                 <option value="<?php echo esc_attr($class); ?>"><?php echo esc_html($label . ' — ' . $class); ?></option>
             <?php endforeach; ?>
         </select>
         <p class="description">
             <i id="zheshe-category-icon-preview" class="bi bi-journal-text"></i>
-            <?php _e('Displayed beside the category name in the sidebar.', 'zheshe'); ?>
+            <?php esc_html_e('Displayed beside the category name in the sidebar.', 'zheshe'); ?>
         </p>
     </div>
     <?php
@@ -751,17 +754,17 @@ function zheshe_category_icon_edit_field($term) {
     wp_nonce_field('zheshe_category_icon_save', 'zheshe_category_icon_nonce');
     ?>
     <tr class="form-field">
-        <th scope="row"><label for="zheshe-category-icon"><?php _e('Category icon', 'zheshe'); ?></label></th>
+        <th scope="row"><label for="zheshe-category-icon"><?php esc_html_e('Category icon', 'zheshe'); ?></label></th>
         <td>
             <select id="zheshe-category-icon" name="zheshe_category_icon" class="postform">
-                <option value=""><?php _e('Auto (default)', 'zheshe'); ?></option>
+                <option value=""><?php esc_html_e('Auto (default)', 'zheshe'); ?></option>
                 <?php foreach (zheshe_category_icon_choices() as $class => $label) : ?>
                     <option value="<?php echo esc_attr($class); ?>" <?php selected($current, $class); ?>><?php echo esc_html($label . ' — ' . $class); ?></option>
                 <?php endforeach; ?>
             </select>
             <p class="description">
                 <i id="zheshe-category-icon-preview" class="bi <?php echo esc_attr($current ? $current : 'bi-journal-text'); ?>"></i>
-                <?php _e('Displayed beside the category name in the sidebar.', 'zheshe'); ?>
+                <?php esc_html_e('Displayed beside the category name in the sidebar.', 'zheshe'); ?>
             </p>
         </td>
     </tr>
@@ -804,8 +807,8 @@ function zheshe_subscription_form() {
     ?>
       <div class="sidebar-card card subscribe-card">
         <div class="card-body">
-          <h5 class="mb-2"><i class="bi bi-envelope-heart me-2"></i><?php _e('Subscribe Updates', 'zheshe'); ?></h5>
-          <p class="small opacity-75 mb-3"><?php _e('Get notified of new posts', 'zheshe'); ?></p>
+          <h5 class="mb-2"><i class="bi bi-envelope-heart me-2"></i><?php esc_html_e('Subscribe Updates', 'zheshe'); ?></h5>
+          <p class="small opacity-75 mb-3"><?php esc_html_e('Get notified of new posts', 'zheshe'); ?></p>
           <?php echo do_shortcode('[jetpack_subscription_form]'); ?>
         </div>
       </div>
@@ -814,8 +817,8 @@ function zheshe_subscription_form() {
     ?>
       <div class="sidebar-card card subscribe-card">
         <div class="card-body">
-          <h5 class="mb-2"><i class="bi bi-envelope-heart me-2"></i><?php _e('Subscribe Updates', 'zheshe'); ?></h5>
-          <p class="small opacity-75 mb-3"><?php _e('Get notified of new posts', 'zheshe'); ?></p>
+          <h5 class="mb-2"><i class="bi bi-envelope-heart me-2"></i><?php esc_html_e('Subscribe Updates', 'zheshe'); ?></h5>
+          <p class="small opacity-75 mb-3"><?php esc_html_e('Get notified of new posts', 'zheshe'); ?></p>
           <?php mc4wp_show_form(); ?>
         </div>
       </div>
@@ -828,7 +831,7 @@ function zheshe_custom_logo() {
     if (has_custom_logo()) {
         return get_custom_logo();
     }
-    return '<a class="navbar-brand fw-bold" href="' . esc_url(home_url('/')) . '"><i class="bi bi-journal-richtext text-primary me-1"></i>' . get_bloginfo('name') . '</a>';
+    return '<a class="navbar-brand fw-bold" href="' . esc_url(home_url('/')) . '"><i class="bi bi-journal-richtext text-primary me-1"></i>' . esc_html(get_bloginfo('name')) . '</a>';
 }
 
 /* ========================================================================
@@ -974,7 +977,7 @@ function zheshe_comment_callback($comment, $args, $depth) {
             </div>
 
             <?php if ('0' === $comment->comment_approved) : ?>
-              <p class="small text-warning-emphasis mb-2"><?php _e('Your comment is awaiting moderation.', 'zheshe'); ?></p>
+              <p class="small text-warning-emphasis mb-2"><?php esc_html_e('Your comment is awaiting moderation.', 'zheshe'); ?></p>
             <?php endif; ?>
 
             <div class="comment-content small">

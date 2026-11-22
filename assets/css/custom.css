@@ -404,3 +404,21 @@
     padding: 1.5rem 1rem;
   }
 }
+
+/* WordPress core classes (Theme Check recommended). */
+.alignleft { float: left; margin: 0 1.5rem 1rem 0; }
+.alignright { float: right; margin: 0 0 1rem 1.5rem; }
+.aligncenter { display: block; margin-left: auto; margin-right: auto; }
+.wp-caption { max-width: 100%; }
+.wp-caption img { max-width: 100%; height: auto; }
+.wp-caption-text,
+.gallery-caption { font-size: 0.875rem; color: #6c757d; text-align: center; margin-top: 0.5rem; }
+.bypostauthor { font-weight: 600; }
+.screen-reader-text {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.screen-reader-text:focus {
+  position: static; width: auto; height: auto; margin: 0; overflow: visible;
+  clip: auto; white-space: normal;
+}

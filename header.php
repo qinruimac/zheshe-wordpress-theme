@@ -4,14 +4,14 @@ if (!defined('ABSPATH')) exit;
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-  <meta charset="<?php bloginfo('charset'); ?>">
+  <meta charset="<?php echo esc_attr(get_bloginfo('charset')); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<a class="skip-link visually-hidden-focusable" href="#main-content"><?php _e('Skip to content', 'zheshe'); ?></a>
+<a class="skip-link visually-hidden-focusable" href="#main-content"><?php esc_html_e('Skip to content', 'zheshe'); ?></a>
 
 <div class="container">
   <!-- 博客导航 -->
@@ -41,7 +41,7 @@ if (!defined('ABSPATH')) exit;
         ));
       } else {
         echo '<ul class="navbar-nav mx-auto">';
-        echo '<li class="nav-item"><a class="nav-link active" href="' . esc_url(home_url('/')) . '">' . __('Home', 'zheshe') . '</a></li>';
+        echo '<li class="nav-item"><a class="nav-link active" href="' . esc_url(home_url('/')) . '">' . esc_html__('Home', 'zheshe') . '</a></li>';
         $cats = get_categories(array('number' => 4));
         foreach ($cats as $cat) {
           echo '<li class="nav-item"><a class="nav-link" href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->name) . '</a></li>';
@@ -51,7 +51,7 @@ if (!defined('ABSPATH')) exit;
       ?>
       <?php if (is_user_logged_in() && current_user_can('edit_posts')) : ?>
         <a href="<?php echo esc_url(admin_url('post-new.php')); ?>" class="btn btn-primary btn-sm">
-          <i class="bi bi-pencil-square me-1"></i><?php _e('Write', 'zheshe'); ?>
+          <i class="bi bi-pencil-square me-1"></i><?php esc_html_e('Write', 'zheshe'); ?>
         </a>
       <?php endif; ?>
     </div>

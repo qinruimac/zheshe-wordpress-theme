@@ -5,8 +5,8 @@ get_header();
 <main id="main-content">
 
 <div class="single-post-header">
-  <h1><i class="bi bi-search me-2"></i><?php _e('Search Results', 'zheshe'); ?></h1>
-  <p class="lead mt-2"><?php _e('Keyword:', 'zheshe'); ?> "<?php echo esc_html(get_search_query()); ?>"</p>
+  <h1><i class="bi bi-search me-2"></i><?php esc_html_e('Search Results', 'zheshe'); ?></h1>
+  <p class="lead mt-2"><?php esc_html_e('Keyword:', 'zheshe'); ?> "<?php echo esc_html(get_search_query()); ?>"</p>
 </div>
 
 <div class="row">
@@ -25,7 +25,7 @@ get_header();
               </h5>
               <p class="small text-muted mb-1"><?php echo esc_html(get_the_excerpt()); ?></p>
               <small class="text-muted">
-                <?php echo get_the_date(); ?> · <i class="bi bi-eye"></i> <?php echo esc_html(zheshe_post_views()); ?>
+                <?php echo esc_html(get_the_date()); ?> · <i class="bi bi-eye"></i> <?php echo esc_html(zheshe_post_views()); ?>
               </small>
             </div>
           </div>
@@ -36,8 +36,8 @@ get_header();
     <?php else : ?>
       <div class="text-center py-5">
         <i class="bi bi-emoji-frown text-muted zheshe-empty-icon"></i>
-        <h4 class="mt-3 text-muted"><?php _e('No posts found', 'zheshe'); ?></h4>
-        <p class="text-muted"><?php _e('Try a different keyword!', 'zheshe'); ?></p>
+        <h4 class="mt-3 text-muted"><?php esc_html_e('No posts found', 'zheshe'); ?></h4>
+        <p class="text-muted"><?php esc_html_e('Try a different keyword!', 'zheshe'); ?></p>
         <div class="mt-3">
           <?php get_search_form(); ?>
         </div>

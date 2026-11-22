@@ -15,7 +15,7 @@ $hero_class = ('dark' === $hero_style) ? 'blog-hero blog-hero-dark' : 'blog-hero
     <div class="col-lg-8">
       <h1><?php echo esc_html(zheshe_hero_mod('title', __('Share knowledge, record life', 'zheshe'))); ?></h1>
       <p class="lead"><?php echo esc_html(zheshe_hero_mod('subtitle', __('Explore technology, life and travel, find resonance here.', 'zheshe'))); ?></p>
-      <a href="#latest-posts" class="btn btn-light"><?php _e('Start Reading', 'zheshe'); ?> <i class="bi bi-arrow-right"></i></a>
+      <a href="#latest-posts" class="btn btn-light"><?php esc_html_e('Start Reading', 'zheshe'); ?> <i class="bi bi-arrow-right"></i></a>
     </div>
     <div class="col-lg-4 d-none d-lg-block text-center">
       <i class="bi bi-journal-text zheshe-hero-icon"></i>

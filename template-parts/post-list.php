@@ -28,7 +28,7 @@ if (is_front_page() && !is_home()) {
     $zheshe_list  = $GLOBALS['wp_query'];
 }
 ?>
-<h3 class="mb-3"><i class="bi bi-fire text-danger me-2"></i><?php _e('Latest Posts', 'zheshe'); ?></h3>
+<h3 class="mb-3"><i class="bi bi-fire text-danger me-2"></i><?php esc_html_e('Latest Posts', 'zheshe'); ?></h3>
 
 <?php if ($zheshe_list->have_posts()) : ?>
 
@@ -46,7 +46,7 @@ if (is_front_page() && !is_home()) {
           <div class="d-flex align-items-center">
             <?php echo get_avatar(get_the_author_meta('ID'), 32, '', '', array('class' => 'rounded-circle me-2')); ?>
             <small class="text-muted">
-              <?php the_author(); ?> · <?php echo get_the_date(); ?>
+              <?php echo esc_html(get_the_author()); ?> · <?php echo esc_html(get_the_date()); ?>
               · <i class="bi bi-eye"></i> <?php echo esc_html(zheshe_post_views()); ?>
               · <i class="bi bi-chat"></i> <?php echo esc_html(get_comments_number()); ?>
             </small>
@@ -77,8 +77,8 @@ if (is_front_page() && !is_home()) {
 <?php else : ?>
   <div class="text-center py-5">
     <i class="bi bi-inbox text-muted zheshe-empty-icon"></i>
-    <h4 class="mt-3 text-muted"><?php _e('No posts yet', 'zheshe'); ?></h4>
-    <p class="text-muted"><?php _e('Start writing and share your story!', 'zheshe'); ?></p>
+    <h4 class="mt-3 text-muted"><?php esc_html_e('No posts yet', 'zheshe'); ?></h4>
+    <p class="text-muted"><?php esc_html_e('Start writing and share your story!', 'zheshe'); ?></p>
   </div>
 <?php endif; ?>
 

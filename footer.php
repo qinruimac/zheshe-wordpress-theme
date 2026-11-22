@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) exit;
           <p class="small"><?php echo esc_html(get_bloginfo('description')); ?></p>
         </div>
         <div class="col-md-4 mb-3">
-          <h6 class="fw-bold mb-2"><?php _e('Quick Links', 'zheshe'); ?></h6>
+          <h6 class="fw-bold mb-2"><?php esc_html_e('Quick Links', 'zheshe'); ?></h6>
           <?php
           if (has_nav_menu('footer')) {
             wp_nav_menu(array(
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) exit;
             ));
           } else {
             echo '<ul class="list-unstyled small">';
-            echo '<li><a href="' . esc_url(home_url('/')) . '">' . __('Home', 'zheshe') . '</a></li>';
+            echo '<li><a href="' . esc_url(home_url('/')) . '">' . esc_html__('Home', 'zheshe') . '</a></li>';
             $pages = get_pages(array('number' => 5));
             foreach ($pages as $page) {
               echo '<li><a href="' . esc_url(get_permalink($page->ID)) . '">' . esc_html($page->post_title) . '</a></li>';
@@ -31,8 +31,8 @@ if (!defined('ABSPATH')) exit;
         </div>
         <?php if (zheshe_has_subscription_plugin()) : ?>
         <div class="col-md-4 mb-3">
-          <h6 class="fw-bold mb-2"><?php _e('Subscribe Updates', 'zheshe'); ?></h6>
-          <p class="small opacity-75"><?php _e('Get notified of new posts', 'zheshe'); ?></p>
+          <h6 class="fw-bold mb-2"><?php esc_html_e('Subscribe Updates', 'zheshe'); ?></h6>
+          <p class="small opacity-75"><?php esc_html_e('Get notified of new posts', 'zheshe'); ?></p>
           <?php if (zheshe_has_subscription_plugin() === 'jetpack') : ?>
             <?php echo do_shortcode('[jetpack_subscription_form]'); ?>
           <?php elseif (zheshe_has_subscription_plugin() === 'mailchimp') : ?>
@@ -41,10 +41,10 @@ if (!defined('ABSPATH')) exit;
         </div>
         <?php else : ?>
         <div class="col-md-4 mb-3">
-          <h6 class="fw-bold mb-2"><?php _e('Follow Us', 'zheshe'); ?></h6>
-          <p class="small opacity-75"><?php _e('Subscribe via RSS', 'zheshe'); ?></p>
+          <h6 class="fw-bold mb-2"><?php esc_html_e('Follow Us', 'zheshe'); ?></h6>
+          <p class="small opacity-75"><?php esc_html_e('Subscribe via RSS', 'zheshe'); ?></p>
           <a href="<?php echo esc_url(get_feed_link()); ?>" class="btn btn-warning btn-sm text-dark fw-bold">
-            <i class="bi bi-rss-fill me-1"></i><?php _e('RSS Feed', 'zheshe'); ?>
+            <i class="bi bi-rss-fill me-1"></i><?php esc_html_e('RSS Feed', 'zheshe'); ?>
           </a>
         </div>
         <?php endif; ?>
