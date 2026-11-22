@@ -4,7 +4,7 @@ Contributors: qinruimac
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.7
+Stable tag: 1.4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, right-sidebar, custom-colors, custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, sticky-post
@@ -32,7 +32,7 @@ Features:
 == Installation ==
 
 1. In your WordPress dashboard, go to Appearance → Themes → Add New → Upload Theme.
-2. Choose `zheshe.zip` and click Install Now.
+2. Choose the versioned theme ZIP package (`zheshe_vX.Y.Z.zip`) and click Install Now.
 3. Click Activate.
 4. (Optional) Go to Appearance → Customize → Home Hero to set the headline and subtitle.
 5. (Optional) Go to Appearance → Menus to assign the Primary and Footer menus.
@@ -81,6 +81,18 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 3. Category archive with the sidebar
 
 == Changelog ==
+
+= 1.4.8 =
+* Added two custom block styles (gradient button and accent quote) via register_block_style(),
+  and a "Featured Intro" block pattern via register_block_pattern(), addressing the Theme Check
+  recommendations for the transition to block themes
+* The footer credit link now reads the theme Author URI, is escaped with esc_url(), and can be
+  replaced or removed using the zheshe_credit_url / zheshe_show_credit filters; no hard-coded
+  URLs remain in templates
+* Added 5 new translatable strings and rebuilt the Simplified Chinese language pack (154 entries)
+* Build artifacts are now named zheshe_vX.Y.Z.zip (e.g. zheshe_v1.4.8.zip); the release
+  workflow now verifies that the tag matches the Version header in style.css before publishing
+* No settings or content changes
 
 = 1.4.7 =
 * All translatable strings echoed in templates and widget forms are now escaped with
@@ -185,6 +197,10 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 * First public release
 
 == Upgrade Notice ==
+
+= 1.4.8 =
+Theme Check follow-up: block styles, a block pattern and a configurable footer credit link.
+No settings or content changes; a straightforward update.
 
 = 1.4.7 =
 Compliance follow-up to 1.4.6. No settings or content changes; a straightforward update.

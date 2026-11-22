@@ -2,7 +2,7 @@
 
 基于 **Bootstrap 5** 的现代 WordPress 博客主题，紫蓝渐变风格，响应式设计。
 
-![Theme Version](https://img.shields.io/badge/version-1.4.7-667eea)
+![Theme Version](https://img.shields.io/badge/version-1.4.8-667eea)
 ![Requires PHP](https://img.shields.io/badge/PHP-7.4%2B-764ba2)
 ![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-21759b)
 ![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue)
@@ -27,6 +27,22 @@
 - 🌐 内置简体中文语言包（全部字符串已完整翻译），翻译就绪（Text Domain: `zheshe`）
 
 ## Changelog
+
+### 1.4.8
+
+Theme Check 反馈收尾 + 发版产物规范化：
+
+- **块编辑器能力**：新增 `core/button` 渐变按钮样式、`core/quote` 强调引用样式
+  （`register_block_style`），以及 `zheshe/featured-intro` 区块模式
+  （`register_block_pattern`），补齐 Theme Check 的两条 RECOMMENDED
+- **页脚署名可配置**：链接改为读取 `style.css` 的 Author URI 并经 `esc_url()` 输出，
+  模板内不再有硬编码 URL；`zheshe_credit_url` / `zheshe_show_credit` 两个过滤器可替换或移除
+- **语言包**：新增 5 条可翻译字符串，简中语言包重建为 154 条
+- **打包命名规范化**：产物由 `zheshe.zip` 改为 `zheshe_v<版本>.zip`
+  （如 `zheshe_v1.4.8.zip`），版本号自动读取 `style.css`；Release workflow 现在严格校验
+  tag 与 `style.css` 的 `Version` 一致，不一致即中止发布
+- 有意未加 `custom-header`（主题未使用 header image，声明即假功能）；`WP_DEBUG` 警告属于
+  本地 `wp-config.php` 环境配置，不在主题内处理
 
 ### 1.4.7
 
@@ -144,7 +160,8 @@ WordPress.org 主题目录投稿前的合规整改：
 sh bin/build-zip.sh
 ```
 
-在仓库根目录生成 `zheshe.zip`（顶层目录为 `zheshe/`），已排除 `.git/`、`bin/`、隐藏文件、
+在仓库根目录生成 `zheshe_v<版本>.zip`（如 `zheshe_v1.4.8.zip`，版本号自动读取
+`style.css` 的 `Version` 头；顶层目录为 `zheshe/`），已排除 `.git/`、`bin/`、隐藏文件、
 `node_modules/`、`*.zip`、`*.log` 等开发文件，可直接用于后台上传或提交到 WordPress.org。
 
 ## 目录结构
@@ -162,7 +179,7 @@ zheshe/
 │   │   ├── bootstrap/{css,js}
 │   │   └── bootstrap-icons/
 ├── bin/
-│   └── build-zip.sh           # 打包脚本（不进入 zheshe.zip）
+│   └── build-zip.sh           # 打包脚本（不进入主题安装包）
 ├── languages/                 # 语言包（zh_CN）
 ├── template-parts/
 │   ├── hero.php               # 首页 Hero 区

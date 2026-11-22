@@ -2,7 +2,7 @@
 # Copyright (C) 2026 eRui.org
 msgid ""
 msgstr ""
-"Project-Id-Version: Zheshe 1.4.7\n"
+"Project-Id-Version: Zheshe 1.4.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-11-20 20:48+0800\n"
 "PO-Revision-Date: 2026-11-20 20:48+0800\n"
