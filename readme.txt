@@ -4,7 +4,7 @@ Contributors: qinruimac
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.6
+Stable tag: 1.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, right-sidebar, custom-colors, custom-menu, custom-logo, featured-images, threaded-comments, translation-ready, sticky-post
@@ -81,6 +81,18 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 3. Category archive with the sidebar
 
 == Changelog ==
+
+= 1.4.7 =
+* All translatable strings echoed in templates and widget forms are now escaped with
+  esc_html_e() / esc_html__(); additional escaping added for the search field value,
+  custom-logo fallback, archive titles and description, dates, charset and comment counts
+* Removed dead subscribe-form JavaScript that targeted a selector which does not exist
+  in the theme and contained a hard-coded, non-translatable Chinese string
+* The style.css Description is now in English for the theme directory listing
+* Added WordPress core CSS classes (alignleft, alignright, aligncenter, wp-caption,
+  wp-caption-text, gallery-caption, bypostauthor, screen-reader-text) and declared
+  custom-background support
+* No visual changes and no new translatable strings: the language pack stays in sync
 
 = 1.4.6 =
 * The theme no longer writes widgets on activation or on every admin page load: the automatic
@@ -173,6 +185,9 @@ the CDN, a child theme can use `add_filter('zheshe_use_local_assets', '__return_
 * First public release
 
 == Upgrade Notice ==
+
+= 1.4.7 =
+Compliance follow-up to 1.4.6. No settings or content changes; a straightforward update.
 
 = 1.4.6 =
 WordPress.org compliance release. Your existing widgets, menus and Customizer settings are kept;

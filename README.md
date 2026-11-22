@@ -2,7 +2,7 @@
 
 基于 **Bootstrap 5** 的现代 WordPress 博客主题，紫蓝渐变风格，响应式设计。
 
-![Theme Version](https://img.shields.io/badge/version-1.4.6-667eea)
+![Theme Version](https://img.shields.io/badge/version-1.4.7-667eea)
 ![Requires PHP](https://img.shields.io/badge/PHP-7.4%2B-764ba2)
 ![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-21759b)
 ![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue)
@@ -27,6 +27,21 @@
 - 🌐 内置简体中文语言包（全部字符串已完整翻译），翻译就绪（Text Domain: `zheshe`）
 
 ## Changelog
+
+### 1.4.7
+
+WordPress.org 投稿合规补遗（承接 1.4.6）：
+
+- **输出转义全面加固**：模板与小工具表单中 57 处 `_e()` 改为 `esc_html_e()`，直接拼接输出的
+  `__()` 改为 `esc_html__()`；补齐搜索框 `value`、自定义 Logo 回退、归档标题、分类描述、
+  日期、字符集、评论数等遗漏的转义
+- **移除死代码**：删除 `assets/js/main.js` 中绑定不存在的 `.subscribe-form` 的订阅逻辑，
+  以及其中不可翻译的硬编码中文
+- **元数据与兼容性**：`style.css` 的 Description 改为英文（主题目录页展示）；补上
+  `.alignleft` / `.alignright` / `.aligncenter` / `.wp-caption` / `.wp-caption-text` /
+  `.gallery-caption` / `.bypostauthor` / `.screen-reader-text` 等 Core 样式类，
+  并声明 `custom-background` 支持
+- 不改变视觉、不新增可翻译字符串，语言包仍与源码同步（148 条）
 
 ### 1.4.6
 
