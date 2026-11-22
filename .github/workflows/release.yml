@@ -1,0 +1,83 @@
+name: Build and Release Theme ZIP
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag, e.g. v1.4.6'
+        required: true
+        default: 'v1.4.6'
+      draft:
+        description: 'Create as draft for review'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: ver
+        run: |
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          VER="${TAG#v}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+          CSS_VER=$(grep -i '^Version:' style.css | head -1 | sed 's/.*: *//' | tr -d '\r')
+          echo "style.css: $CSS_VER | tag: $VER"
+          if [ "$CSS_VER" != "$VER" ]; then
+            echo "::warning::style.css Version ($CSS_VER) 与 tag ($VER) 不一致，请确认"
+          fi
+
+      - name: Build zheshe.zip
+        run: |
+          chmod +x bin/build-zip.sh
+          sh bin/build-zip.sh
+          ls -lh zheshe.zip
+
+      - name: Verify ZIP layout
+        run: |
+          unzip -Z1 zheshe.zip | grep -qx 'zheshe/style.css'
+          unzip -Z1 zheshe.zip | grep -qx 'zheshe/readme.txt'
+          echo "ZIP 结构校验通过（顶层目录 zheshe/）"
+
+      - name: Build release notes from README
+        run: |
+          python3 - <<'PY'
+          import os, re, pathlib
+          ver = os.environ['VERSION']
+          tag = os.environ['TAG']
+          text = pathlib.Path('README.md').read_text(encoding='utf-8')
+          m = re.search(r'^### ' + re.escape(ver) + r'\s*$(.*?)(?=^### |\Z)', text, re.M | re.S)
+          section = m.group(1).strip() if m else ''
+          body = '## Zheshe ' + tag + '\n\n'
+          body += (section if section else '_（README 中未找到该版本的 Changelog）_') + '\n\n'
+          body += ('---\n\n**安装包**：`zheshe.zip`（解压后顶层目录为 `zheshe/`），'
+                   '可在 WordPress 后台「外观 → 主题 → 上传主题」直接安装，'
+                   '也可用于 WordPress.org 投稿。\n')
+          pathlib.Path('RELEASE_NOTES.md').write_text(body, encoding='utf-8')
+          PY
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+          TAG: ${{ steps.ver.outputs.tag }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          name: Zheshe ${{ steps.ver.outputs.version }}
+          body_path: RELEASE_NOTES.md
+          draft: ${{ github.event.inputs.draft == 'true' }}
+          prerelease: false
+          files: zheshe.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
