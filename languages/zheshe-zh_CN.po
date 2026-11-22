@@ -462,3 +462,19 @@ msgstr "随笔 / 博客"
 
 msgid "音乐"
 msgstr "音乐"
+
+# Theme Check follow-up: block styles / block pattern.
+msgid "Accent"
+msgstr "强调"
+
+msgid "A centered intro block with a heading, description and a call-to-action button."
+msgstr "带标题、描述与行动按钮的居中导读区块。"
+
+msgid "Featured Intro"
+msgstr "特色导读"
+
+msgid "Gradient"
+msgstr "渐变"
+
+msgid "Read More"
+msgstr "阅读全文"

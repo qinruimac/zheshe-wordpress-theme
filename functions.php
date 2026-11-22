@@ -1000,3 +1000,75 @@ function zheshe_comment_callback($comment, $args, $depth) {
     </<?php echo $tag; ?>>
     <?php
 }
+
+
+/**
+ * 自定义区块样式（Theme Check RECOMMENDED：向块主题过渡）。
+ * 样式规则放在 assets/css/custom.css（前台）与 assets/css/editor-style.css（编辑器），
+ * 由主题样式表提供，不依赖 WP 的内联注入。
+ */
+function zheshe_register_block_styles() {
+    if (!function_exists('register_block_style')) {
+        return;
+    }
+    register_block_style('core/button', array(
+        'name'  => 'zheshe-gradient',
+        'label' => esc_html__('Gradient', 'zheshe'),
+    ));
+    register_block_style('core/quote', array(
+        'name'  => 'zheshe-accent',
+        'label' => esc_html__('Accent', 'zheshe'),
+    ));
+}
+add_action('init', 'zheshe_register_block_styles');
+
+/**
+ * 自定义区块模式（Theme Check RECOMMENDED）。
+ * 示例文案走主题语言包，避免硬编码不可翻译字符串；插入后由用户自行编辑内容。
+ */
+function zheshe_register_block_patterns() {
+    if (!function_exists('register_block_pattern')) {
+        return;
+    }
+    $content = '<!-- wp:group {"align":"wide","layout":{"type":"constrained"}} -->'
+        . '<div class="wp-block-group alignwide">'
+        . '<!-- wp:heading {"textAlign":"center","level":2} -->'
+        . '<h2 class="wp-block-heading has-text-align-center">' . esc_html__('Latest Posts', 'zheshe') . '</h2>'
+        . '<!-- /wp:heading -->'
+        . '<!-- wp:paragraph {"align":"center"} -->'
+        . '<p class="has-text-align-center">' . esc_html__('Explore technology, life and travel, find resonance here.', 'zheshe') . '</p>'
+        . '<!-- /wp:paragraph -->'
+        . '<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->'
+        . '<div class="wp-block-buttons">'
+        . '<!-- wp:button {"className":"is-style-zheshe-gradient"} -->'
+        . '<div class="wp-block-button is-style-zheshe-gradient"><a class="wp-block-button__link wp-element-button">' . esc_html__('Read More', 'zheshe') . '</a></div>'
+        . '<!-- /wp:button -->'
+        . '</div>'
+        . '<!-- /wp:buttons -->'
+        . '</div>'
+        . '<!-- /wp:group -->';
+
+    register_block_pattern('zheshe/featured-intro', array(
+        'title'       => esc_html__('Featured Intro', 'zheshe'),
+        'description' => esc_html__('A centered intro block with a heading, description and a call-to-action button.', 'zheshe'),
+        'categories'  => array('featured', 'text'),
+        'keywords'    => array('zheshe', 'intro', 'hero', 'cta'),
+        'content'     => $content,
+    ));
+}
+add_action('init', 'zheshe_register_block_patterns');
+
+/**
+ * 页脚署名链接：取自 style.css 的 Author URI，模板里不再硬编码 URL。
+ * 站点可用 filter 替换或移除（WordPress.org 要求 credit link 可去除）：
+ *   add_filter('zheshe_credit_url', '__return_empty_string');
+ *   add_filter('zheshe_show_credit', '__return_false');
+ */
+function zheshe_credit_url() {
+    $url = wp_get_theme(get_template())->get('AuthorURI');
+    return apply_filters('zheshe_credit_url', $url);
+}
+
+function zheshe_show_credit() {
+    return (bool) apply_filters('zheshe_show_credit', true);
+}

@@ -57,7 +57,11 @@ if (!defined('ABSPATH')) exit;
       </div>
       <hr class="opacity-25">
       <div class="text-center small">
-        <p>&copy; <?php echo esc_html(wp_date('Y')); ?> <?php echo esc_html(get_bloginfo('name')); ?> · <?php esc_html_e('Powered by WordPress', 'zheshe'); ?> · <?php esc_html_e('Theme Designed by', 'zheshe'); ?> <a href="https://eRui.org" class="text-white">eRui.org</a></p>
+        <?php
+        // 署名链接取自主题 Author URI，并可通过 filter 移除；模板不硬编码 URL。
+        $zheshe_credit_url = zheshe_credit_url();
+        ?>
+        <p>&copy; <?php echo esc_html(wp_date('Y')); ?> <?php echo esc_html(get_bloginfo('name')); ?> · <?php esc_html_e('Powered by WordPress', 'zheshe'); ?><?php if (zheshe_show_credit()) : ?> · <?php esc_html_e('Theme Designed by', 'zheshe'); ?> <?php if ($zheshe_credit_url) : ?><a href="<?php echo esc_url($zheshe_credit_url); ?>" class="text-white">eRui.org</a><?php else : ?><span class="text-white">eRui.org</span><?php endif; ?><?php endif; ?></p>
       </div>
     </div>
   </footer>

@@ -47,3 +47,19 @@ img {
   border-radius: 0.5rem;
   height: auto;
 }
+
+/* Custom block styles registered via register_block_style() in functions.php. */
+.wp-block-button.is-style-zheshe-gradient .wp-block-button__link {
+  background: var(--brand-gradient, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+  border: none;
+  color: #fff;
+}
+.wp-block-button.is-style-zheshe-gradient .wp-block-button__link:hover {
+  opacity: .9;
+  color: #fff;
+}
+.wp-block-quote.is-style-zheshe-accent {
+  border-left: 4px solid #667eea;
+  padding-left: 1.25rem;
+  color: #212529;
+}
